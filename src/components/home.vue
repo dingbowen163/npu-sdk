@@ -5,12 +5,9 @@
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
     >
-      <el-menu-item index="1">
-        <img src="../assets/logo.png" alt class="logo" />
+      <el-menu-item>
+        <!-- <img src="../assets/img/logo.png" alt class="logo" /> -->
       </el-menu-item>
       <el-menu-item index="2">文档</el-menu-item>
       <el-menu-item index="3">下载</el-menu-item>
@@ -27,13 +24,22 @@
 export default {
   data() {
     return {
-      activeIndex: "/login"
+      activeIndex: this.$route.path
     };
+  },
+  watch: {
+    $route: {
+      handler: function(val, oldVal) {
+        // console.log(val);
+        this.activeIndex = val.path;
+      },
+      deep: true
+    }
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-      this.$router.push(key)
+      // console.log(key, keyPath);
+      this.$router.push(key);
     }
   },
   components: {},
@@ -42,15 +48,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home{
+.home {
   height: 100%;
 }
 .el-menu--horizontal {
   padding: 0 20px;
 }
 .logo {
-  width: 150px;
-  height: 60px;
+  width: 132px;
+  height: 30px;
 }
 .fr {
   float: right;
@@ -58,7 +64,7 @@ export default {
 .fl {
   float: left;
 }
-.main-view{
+.main-view {
   min-height: calc(100% - 61px);
   position: relative;
 }
