@@ -2,15 +2,14 @@
   <div class="home">
     <el-menu
       :default-active="activeIndex"
-      class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
     >
-      <el-menu-item>
-        <!-- <img src="../assets/img/logo.png" alt class="logo" /> -->
+      <el-menu-item class="logo-menu" index="">
+        <img src="../assets/img/logo.png" alt class="logo" />
       </el-menu-item>
-      <el-menu-item index="2">文档</el-menu-item>
-      <el-menu-item index="3">下载</el-menu-item>
+      <el-menu-item index="/documents">文档</el-menu-item>
+      <el-menu-item index="/downloads">下载</el-menu-item>
       <el-menu-item index="/register" class="fr">注册</el-menu-item>
       <el-menu-item index="/login" class="fr">登录</el-menu-item>
     </el-menu>

@@ -26,7 +26,7 @@
         <h3 class="form-title">重置密码</h3>
         <el-form class="form" ref="resetForm" :model="resetForm">
           <el-form-item>
-            <el-input placeholder="设置密码"  type="password" v-model="resetForm.name"></el-input>
+            <el-input placeholder="设置密码" type="password" v-model="resetForm.name"></el-input>
           </el-form-item>
           <el-form-item>
             <el-input placeholder="重复密码" type="password" v-model="resetForm.password"></el-input>
@@ -57,12 +57,14 @@ export default {
     };
   },
   methods: {
-    submitForm() {},
+    submitForm() {
+      this.$router.push("/index");
+    },
     forgetPwd() {
       this.showResetPwd = true;
     },
-    submitPwd(){},
-    getCode(){}
+    submitPwd() {},
+    getCode() {}
   },
   components: {},
   mounted() {}
