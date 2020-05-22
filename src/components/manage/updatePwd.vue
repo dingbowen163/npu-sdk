@@ -1,5 +1,5 @@
 <template>
-  <div class="view"></div>
+  <div class="view update-pwd"></div>
 </template>
 
 <script>

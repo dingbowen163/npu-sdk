@@ -1,5 +1,5 @@
 <template>
-  <div class="view index">
+  <div class="view index-view">
     <el-menu :default-active="activeIndex" class="left-menu" @select="handleSelectMenu">
       <el-menu-item index="/order">
         <i class="el-icon-s-order"></i>
@@ -28,11 +28,19 @@
 export default {
   data() {
     return {
-      activeIndex: "/order"
+      activeIndex: this.$route.path
     };
   },
+  watch: {
+    $route: {
+      handler: function(val, oldVal) {
+        this.activeIndex = val.path;
+      },
+      deep: true
+    }
+  },
   methods: {
-   handleSelectMenu(key, keyPath) {
+    handleSelectMenu(key, keyPath) {
       // console.log(key, keyPath);
       this.$router.push(key);
     }
@@ -43,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.view {
+.index-view {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -55,14 +63,18 @@ export default {
   height: 100%;
   float: left;
 }
-.container{
-    float: left;
-    width: calc(100% - 200px);
-    position: relative;
-    .view{
-        margin:20px;
-        width: 100%;
-        position: absolute;
+.container {
+  margin-left: 200px;
+  position: relative;
+  padding: 20px;
+  .view {
+    width: 100%;
+    /deep/ .card {
+      background: #fff;
+      box-shadow: 0 10px 23px -3px rgba(0, 0, 0, 0.05);
+      border-radius: 2px;
+      padding: 20px;
     }
+  }
 }
 </style>

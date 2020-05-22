@@ -1,8 +1,8 @@
 <template>
   <div class="view order">
-    <el-card>
+    <div class="card">
       order
-    </el-card>
+    </div>
   </div>
 </template>
 

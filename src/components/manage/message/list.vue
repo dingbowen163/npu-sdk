@@ -1,5 +1,5 @@
 <template>
-  <div class="view"></div>
+  <div class="view meaasge-list"></div>
 </template>
 
 <script>

@@ -46,6 +46,30 @@ export default new Router({
                 title: "订单列表"
               },
               component: () => import("@/components/manage/order")
+            },
+            {
+              path: "/messages",
+              name: "messages",
+              meta: {
+                title: "留言板"
+              },
+              component: () => import("@/components/manage/message/list")
+            },
+            {
+              path: "/persionalInfo",
+              name: "persionalInfo",
+              meta: {
+                title: "个人资料"
+              },
+              component: () => import("@/components/manage/persionalInfo")
+            },
+            {
+              path: "/updatePwd",
+              name: "updatePwd",
+              meta: {
+                title: "修改密码"
+              },
+              component: () => import("@/components/manage/updatePwd")
             }
           ]
         }
