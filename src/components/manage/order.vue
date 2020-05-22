@@ -1,8 +1,12 @@
 <template>
   <div class="view order">
-    <div class="card">
-      order
-    </div>
+    <header>
+      <h2 class="header-title">
+        <i class="icon-font el-icon-s-order"></i>
+        <span>订单管理</span>
+      </h2>
+    </header>
+    <div class="card"></div>
   </div>
 </template>
 

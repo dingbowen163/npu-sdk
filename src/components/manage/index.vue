@@ -51,30 +51,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.index-view {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-.left-menu {
-  width: 200px;
-  height: 100%;
-  float: left;
-}
-.container {
-  margin-left: 200px;
-  position: relative;
-  padding: 20px;
-  .view {
-    width: 100%;
-    /deep/ .card {
-      background: #fff;
-      box-shadow: 0 10px 23px -3px rgba(0, 0, 0, 0.05);
-      border-radius: 2px;
-      padding: 20px;
-    }
-  }
-}
+@import "../../assets/styles/index.scss";
 </style>
