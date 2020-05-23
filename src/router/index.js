@@ -31,6 +31,14 @@ export default new Router({
           component: () => import("@/components/register")
         },
         {
+          path: "/downloads",
+          name: "downloads",
+          meta: {
+            title: "下载"
+          },
+          component: () => import("@/components/downloads")
+        },
+        {
           path: "/index",
           name: "index",
           redirect: "/order",
