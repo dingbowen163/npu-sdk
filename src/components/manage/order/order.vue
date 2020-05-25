@@ -18,7 +18,7 @@ import tableCom from "../../../common/table";
 export default {
   data() {
     return {
-      roleId: 'cs',
+      roleId: "cs",
       filterInfo: {
         pageInfo: {
           pageNum: 1
@@ -59,7 +59,7 @@ export default {
           {
             label: "状态",
             value: "statusStr",
-            type: "el_tag"
+            type: "raw_html"
           }
         ],
         tableData: [
@@ -67,8 +67,7 @@ export default {
             date: "2016-05-01",
             name: "王小",
             docs: '<a href="">下载</a>',
-            statusStr: "过期",
-            tagType: "danger",
+            statusStr: `<i class="statusDot status1"></i><span>过期</span>`,
             operate: "延期",
             visible: false
           },
@@ -76,15 +75,13 @@ export default {
             date: "2016-05-02",
             name: "王",
             docs: '<a href="">下载</a>',
-            statusStr: "申请",
-            tagType: "warning"
+            statusStr: `<i class="statusDot status2"></i><span>申请</span>`
           },
           {
             date: "2016-05-03",
             name: "王小虎",
             docs: '<a href="">下载</a>',
-            statusStr: "正常",
-            tagType: "success",
+            statusStr: `<i class="statusDot status3"></i><span>正常</span>`,
             operate: "延期",
             visible: false
           }
@@ -95,7 +92,7 @@ export default {
           pageSize: 10
         }
       },
-       csTableMetas: {
+      csTableMetas: {
         headerData: [
           {
             label: "订单号",
@@ -119,18 +116,13 @@ export default {
           },
           {
             label: "新过期时间",
-            value: "date",
-            type: "TEXT"
-          },
-          {
-            label: "操作",
-            value: "operate",
-            type: "operate_btn"
+            value: "newDate",
+            type: "new_date"
           },
           {
             label: "状态",
             value: "statusStr",
-            type: "el_tag"
+            type: "raw_html_operate"
           }
         ],
         tableData: [
@@ -138,26 +130,23 @@ export default {
             date: "2016-05-01",
             name: "王小",
             docs: '<a href="">下载</a>',
-            statusStr: "过期",
-            tagType: "danger",
-            operate: "延期",
-            visible: false
+            statusStr: `<i class="statusDot status1"></i><span>过期</span>`,
+            newDate: "2016-08-02",
+            showBtns: true
           },
           {
             date: "2016-05-02",
             name: "王",
             docs: '<a href="">下载</a>',
-            statusStr: "申请",
-            tagType: "warning"
+            statusStr: `<i class="statusDot status2"></i><span>申请</span>`
           },
           {
             date: "2016-05-03",
             name: "王小虎",
             docs: '<a href="">下载</a>',
-            statusStr: "正常",
-            tagType: "success",
-            operate: "延期",
-            visible: false
+            statusStr: `<i class="statusDot status3"></i><span>正常</span>`,
+            newDate: "2020-08-02",
+            showBtns: true
           }
         ],
         pageInfo: {
