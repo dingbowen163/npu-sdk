@@ -57,39 +57,45 @@ export default {
         ],
         tableData: [
           {
-            date: "2016-05-02",
-            name: "王小虎",
+            date: "2016-05-01",
+            name: "王小",
             docs: '<a href="">下载</a>',
             statusStr: "过期",
             tagType: "danger",
-            operate: "延期"
+            operate: "延期",
+            visible: false
           },
           {
             date: "2016-05-02",
-            name: "王小虎",
+            name: "王",
             docs: '<a href="">下载</a>',
             statusStr: "申请",
             tagType: "warning"
           },
           {
-            date: "2016-05-02",
+            date: "2016-05-03",
             name: "王小虎",
             docs: '<a href="">下载</a>',
             statusStr: "正常",
             tagType: "success",
-            operate: "延期"
+            operate: "延期",
+            visible: false
           }
         ]
       }
     };
   },
   methods: {
-    handleSetting({command, row}){
+    handleSetting({ command, row }) {
       // console.log({command, row})
-      if(command === 'delayDate'){
-        
+      if (command === "delayDate") {
+        this.handleDelayDate(row);
       }
     },
+    // 确定延期
+    handleDelayDate(row) {
+      row.visible = false;
+    }
   },
   components: {
     tableCom

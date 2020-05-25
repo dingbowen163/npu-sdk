@@ -31,9 +31,17 @@
             <el-tag :type="scope.row.tagType">{{scope.row[item.value]}}</el-tag>
           </div>
           <div v-else-if="item.type === 'operate_btn' && scope.row[item.value]">
-            <el-button
-              @click="handleClick({command: 'delayDate', row: scope.row})"
-            >{{scope.row[item.value]}}</el-button>
+            <el-popover placement="bottom" v-model="scope.row.visible" @show="showPopover">
+              <el-date-picker v-model="date" type="date" placeholder="选择日期"></el-date-picker>
+              <div class="popoverBtns">
+                <el-button type="text" @click="scope.row.visible = false">取消</el-button>
+                <el-button
+                  type="primary"
+                  @click="handleClick({command: 'delayDate', row: scope.row})"
+                >确定</el-button>
+              </div>
+              <el-button slot="reference">{{scope.row[item.value]}}</el-button>
+            </el-popover>
           </div>
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>
@@ -55,7 +63,8 @@ export default {
   data() {
     return {
       tableData: this.metas.tableData,
-      headerData: this.metas.headerData
+      headerData: this.metas.headerData,
+      date: ''
     };
   },
   watch: {
@@ -69,7 +78,10 @@ export default {
   },
   methods: {
     handleClick({ command, row }) {
-      this.$emit("settingsClick", {command, row});
+      this.$emit("settingsClick", { command, row });
+    },
+    showPopover(){
+      this.date = ''
     }
   },
   components: {},

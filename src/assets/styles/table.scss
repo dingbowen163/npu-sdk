@@ -26,13 +26,13 @@
 }
 /deep/ .sdk-table-header {
   background-color: #f5f7fa !important;
-  padding: 10px 0 !important;
+  padding: 8px 0 !important;
 }
 /deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
   background: #fafbfc !important;
 }
 /deep/ .sdk-table-cell {
-  padding: 10px 0 !important;
+  padding: 4px 0 !important;
   border-bottom: none !important;
 }
 
@@ -54,4 +54,11 @@
     border-radius: 2px;
     background-color: #f6f7fb;
   }
+}
+.popoverBtns {
+  text-align: right;
+  margin-top: 10px;
+}
+.el-button{
+  padding: 8px 18px;
 }
