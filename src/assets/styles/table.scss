@@ -37,8 +37,11 @@
 }
 
 .setting-pagination-panel {
+  display: block !important;
   text-align: right;
-  padding-top: 20px;
+  margin-top: 20px;
+  height: 30px;
+  box-sizing: border-box;
   /deep/ .el-pager li,
   .el-pager li:last-child {
     font-family: "PingFangSC-Regular";

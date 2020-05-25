@@ -53,7 +53,7 @@ export default new Router({
               meta: {
                 title: "订单列表"
               },
-              component: () => import("@/components/manage/order")
+              component: () => import("@/components/manage/order/order")
             },
             {
               path: "/messages",
