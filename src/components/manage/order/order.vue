@@ -7,8 +7,8 @@
       </h2>
     </header>
     <div class="card">
-      <table-com :metas="tableMetas" @settingsClick="handleSetting" v-if="roleId === 'user'"></table-com>
-      <table-com :metas="csTableMetas" @settingsClick="handleSetting" v-if="roleId === 'cs'"></table-com>
+      <table-com :metas="tableMetas" @settingsClick="handleSetting" @currentChange="handlePageChange" v-if="roleId === 'user'"></table-com>
+      <table-com :metas="csTableMetas" @settingsClick="handleSetting" @currentChange="handlePageChange" v-if="roleId === 'cs'"></table-com>
     </div>
   </div>
 </template>
@@ -20,9 +20,7 @@ export default {
     return {
       roleId: "cs",
       filterInfo: {
-        pageInfo: {
-          pageNum: 1
-        }
+        pageNum: 1
       },
       tableMetas: {
         headerData: [
@@ -178,6 +176,9 @@ export default {
       }
       this.$message.success("过期时间已延期");
       row.visible = false;
+    },
+    handlePageChange(page){
+      this.filterInfo.pageNum = page;
     }
   },
   components: {

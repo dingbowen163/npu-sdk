@@ -80,6 +80,7 @@
       :total="pageInfo.total"
       :current-page="pageInfo.pageNum"
       :page-size="pageInfo.pageSize"
+      @current-change="currentPageChange"
     ></el-pagination>
   </div>
 </template>
@@ -117,6 +118,9 @@ export default {
     },
     showPopover() {
       this.date = "";
+    },
+    currentPageChange(page){
+      this.$emit("currentChange", page)
     }
   },
   components: {},
