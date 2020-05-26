@@ -32,6 +32,7 @@
   background: #fafbfc !important;
 }
 /deep/ .sdk-table-cell {
+  height: 40px;
   padding: 4px 0 !important;
   border-bottom: none !important;
 }
@@ -86,9 +87,6 @@
 /deep/ .data-con{
   width: 100px;
   display: inline-block;
-}
-.clearfix{
-  overflow: hidden;
 }
 .fl{
   float: left;

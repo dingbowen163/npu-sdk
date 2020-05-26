@@ -1,5 +1,5 @@
 <template>
-  <div class="view update-pwd">
+  <div class="content-view update-pwd">
     <header>
       <h2 class="header-title">
         <i class="icon-font el-icon-lock"></i>

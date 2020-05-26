@@ -1,5 +1,5 @@
 <template>
-  <div class="view order">
+  <div class="content-view order">
     <header>
       <h2 class="header-title">
         <i class="icon-font el-icon-s-order"></i>
@@ -7,8 +7,18 @@
       </h2>
     </header>
     <div class="card">
-      <table-com :metas="tableMetas" @settingsClick="handleSetting" @currentChange="handlePageChange" v-if="roleId === 'user'"></table-com>
-      <table-com :metas="csTableMetas" @settingsClick="handleSetting" @currentChange="handlePageChange" v-if="roleId === 'cs'"></table-com>
+      <table-com
+        :metas="tableMetas"
+        @settingsClick="handleSetting"
+        @currentChange="handlePageChange"
+        v-if="roleId === 'user'"
+      ></table-com>
+      <table-com
+        :metas="csTableMetas"
+        @settingsClick="handleSetting"
+        @currentChange="handlePageChange"
+        v-if="roleId === 'cs'"
+      ></table-com>
     </div>
   </div>
 </template>
@@ -177,7 +187,7 @@ export default {
       this.$message.success("过期时间已延期");
       row.visible = false;
     },
-    handlePageChange(page){
+    handlePageChange(page) {
       this.filterInfo.pageNum = page;
     }
   },
