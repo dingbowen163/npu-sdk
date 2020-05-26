@@ -117,11 +117,17 @@ export default {
           {
             label: "新过期时间",
             value: "newDate",
-            type: "new_date"
+            type: "new_date",
+            width: "185"
           },
           {
             label: "状态",
             value: "statusStr",
+            type: "raw_html"
+          },
+          {
+            label: "操作",
+            value: "operate",
             type: "raw_html_operate"
           }
         ],

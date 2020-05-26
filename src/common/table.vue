@@ -22,7 +22,7 @@
         :label="item.label"
         :width="item.width"
         class-name="sdk-table-column-cell"
-        :min-width="136"
+        :min-width="150"
         show-overflow-tooltip
       >
         <template slot-scope="scope">
@@ -65,8 +65,7 @@
             </el-popover>
           </div>
           <div v-else-if="item.type === 'raw_html_operate'">
-            <span class="fl" v-html="scope.row[item.value] || '—'"></span>
-            <el-button-group class="fr" v-if="scope.row.showBtns">
+            <el-button-group v-if="scope.row.showBtns">
               <el-button type="success" plain>通过</el-button>
               <el-button type="danger" plain>拒绝</el-button>
             </el-button-group>
