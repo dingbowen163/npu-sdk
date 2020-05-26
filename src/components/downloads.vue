@@ -1,5 +1,7 @@
 <template>
-  <div class="view downloads">下载</div>
+  <div class="view downloads">
+    <el-card></el-card>
+  </div>
 </template>
 
 <script>

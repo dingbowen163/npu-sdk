@@ -5,10 +5,10 @@
         <h3 class="form-title">登录</h3>
         <el-form class="form" ref="form" :model="form">
           <el-form-item>
-            <el-input placeholder="登录名" v-model="form.name"></el-input>
+            <el-input prefix-icon="el-icon-user" placeholder="登录名" v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
+            <el-input prefix-icon="el-icon-lock" placeholder="密码" type="password" v-model="form.password"></el-input>
           </el-form-item>
           <el-form-item>
             <el-input placeholder="验证码" class="code-inp" v-model="form.code"></el-input>
