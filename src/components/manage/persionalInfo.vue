@@ -9,7 +9,7 @@
     <div class="card">
       <el-form ref="form" class="form" :model="form" :rules="formRules">
         <el-form-item>
-          <el-input placeholder="登录名" v-model="form.name"></el-input>
+          <el-input placeholder="登录名" v-model="form.name" disabled></el-input>
         </el-form-item>
         <el-form-item>
           <el-input placeholder="姓名" v-model="form.name"></el-input>
