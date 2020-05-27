@@ -7,8 +7,9 @@
       </h2>
     </header>
     <div class="card">
-       <table-com
+      <table-com
         :metas="tableMetas"
+        @settingsClick="handleSetting"
         @currentChange="handlePageChange"
       ></table-com>
     </div>
@@ -20,7 +21,7 @@ import tableCom from "../../../common/table";
 export default {
   data() {
     return {
-        filterInfo: {
+      filterInfo: {
         pageNum: 1
       },
       tableMetas: {
@@ -33,7 +34,7 @@ export default {
           {
             label: "主题内容摘要",
             value: "docs",
-            type: "raw_html"
+            type: "link"
           },
           {
             label: "回复人",
@@ -44,23 +45,26 @@ export default {
             label: "最后回复时间",
             value: "date",
             type: "TEXT"
-          },
+          }
         ],
         tableData: [
           {
             date: "2016-05-01",
             name: "王小",
-            docs: '<a href="">下载</a>',
+            docs: "主题内容摘要",
+            id: 1
           },
           {
             date: "2016-05-02",
             name: "王",
-            docs: '<a href="">下载</a>',
+            docs: "123",
+            id: 2
           },
           {
             date: "2016-05-03",
             name: "王小虎",
-            docs: '<a href="">下载</a>'
+            docs: "3231",
+            id: 3
           }
         ],
         pageInfo: {
@@ -68,15 +72,21 @@ export default {
           pageNum: 1,
           pageSize: 10
         }
-      },
+      }
     };
   },
   methods: {
+    handleSetting(data) {
+      let { command, row } = data;
+      if (command === "gotoLink") {
+        this.$router.push(`/messageBoard/${row.id}`)
+      }
+    },
     handlePageChange(page) {
       this.filterInfo.pageNum = page;
     }
   },
-  components: {tableCom},
+  components: { tableCom },
   mounted() {}
 };
 </script>

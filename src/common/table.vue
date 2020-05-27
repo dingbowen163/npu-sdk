@@ -27,6 +27,7 @@
       >
         <template slot-scope="scope">
           <div v-if="item.type === 'raw_html'" v-html="scope.row[item.value] || '—'"></div>
+
           <div v-else-if="item.type === 'operate_btn' && scope.row[item.value]">
             <el-popover placement="bottom" v-model="scope.row.visible" @show="showPopover">
               <el-date-picker
@@ -45,6 +46,7 @@
               <el-button slot="reference">{{scope.row[item.value]}}</el-button>
             </el-popover>
           </div>
+
           <div v-else-if="item.type === 'new_date'">
             <span class="data-con">{{scope.row[item.value] || '—'}}</span>
             <el-popover placement="bottom" v-model="scope.row.visible" @show="showPopover">
@@ -64,12 +66,19 @@
               <el-button slot="reference">修改</el-button>
             </el-popover>
           </div>
+
           <div v-else-if="item.type === 'raw_html_operate'">
             <el-button-group v-if="scope.row.showBtns">
               <el-button type="success" plain>通过</el-button>
               <el-button type="danger" plain>拒绝</el-button>
             </el-button-group>
           </div>
+
+          <span
+            v-else-if="item.type === 'link'"
+            @click="handleClick({command: 'gotoLink', row: scope.row})"
+          >{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
+          
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>
       </el-table-column>
@@ -119,8 +128,8 @@ export default {
     showPopover() {
       this.date = "";
     },
-    currentPageChange(page){
-      this.$emit("currentChange", page)
+    currentPageChange(page) {
+      this.$emit("currentChange", page);
     }
   },
   components: {},
