@@ -8,7 +8,7 @@
     </header>
     <div class="card">
       <el-form class="form" ref="resetForm" :model="resetForm">
-        <el-form-item>
+        <el-form-item label="设置密码">
           <el-input placeholder="设置密码" type="password" v-model="resetForm.name"></el-input>
         </el-form-item>
         <el-form-item>
