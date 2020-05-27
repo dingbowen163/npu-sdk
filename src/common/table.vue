@@ -76,6 +76,7 @@
 
           <span
             v-else-if="item.type === 'link'"
+            class="link-cell"
             @click="handleClick({command: 'gotoLink', row: scope.row})"
           >{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
           

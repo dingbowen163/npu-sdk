@@ -79,7 +79,7 @@ export default {
     handleSetting(data) {
       let { command, row } = data;
       if (command === "gotoLink") {
-        this.$router.push(`/messageBoard/${row.id}`)
+        this.$router.push(`/messageDetail/${row.id}`)
       }
     },
     handlePageChange(page) {
