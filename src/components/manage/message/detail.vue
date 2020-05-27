@@ -9,6 +9,9 @@
         </span>
       </h2>
     </header>
+    <div class="card">
+        
+    </div>
   </div>
 </template>
 
@@ -36,6 +39,10 @@ export default {
     border-radius: 14px;
     color: #9da2b3;
     text-align: center;
+    cursor: pointer;
+    &:hover {
+      background: #e6e7ee;
+    }
   }
   .info {
     display: block;

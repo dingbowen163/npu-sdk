@@ -14,11 +14,8 @@
         <el-form-item>
           <el-input placeholder="重复密码" type="password" v-model="resetForm.password"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="手机号" maxlength="11" v-model="resetForm.name"></el-input>
-        </el-form-item>
         <el-form-item class="code-item">
-          <el-input placeholder="短信验证码" class="code-inp" v-model="resetForm.code"></el-input>
+          <el-input placeholder="验证码" class="code-inp" v-model="resetForm.code"></el-input>
           <el-button class="code-btn" @click="getCode">获取短信验证码</el-button>
         </el-form-item>
         <el-form-item class="submit">

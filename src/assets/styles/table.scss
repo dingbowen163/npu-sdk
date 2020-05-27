@@ -63,7 +63,7 @@
   text-align: right;
   margin-top: 10px;
 }
-.el-button{
+.el-button {
   padding: 8px 16px;
 }
 /deep/ .statusDot {
@@ -84,16 +84,20 @@
     background: #35bd94;
   }
 }
-/deep/ .data-con{
+/deep/ .data-con {
   width: 100px;
   display: inline-block;
 }
-.fl{
+.fl {
   float: left;
 }
-.fr{
+.fr {
   float: right;
 }
-.link-cell{
-  color: #409EFF;
+.link-cell {
+  color: #409eff;
+  cursor: pointer;
+  &:hover {
+    color: #66b1ff;
+  }
 }
