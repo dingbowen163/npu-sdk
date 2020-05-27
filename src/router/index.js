@@ -56,12 +56,20 @@ export default new Router({
               component: () => import("@/components/manage/order/order")
             },
             {
-              path: "/messages",
+              path: "/messageList",
               name: "messages",
               meta: {
                 title: "留言板"
               },
               component: () => import("@/components/manage/message/list")
+            },
+            {
+              path: "/messageBoard",
+              name: "messages",
+              meta: {
+                title: "留言板"
+              },
+              component: () => import("@/components/manage/message/board")
             },
             {
               path: "/persionalInfo",

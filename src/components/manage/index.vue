@@ -5,7 +5,7 @@
         <i class="el-icon-s-order"></i>
         <span slot="title">订单管理</span>
       </el-menu-item>
-      <el-menu-item index="/messages">
+      <el-menu-item :index="messagePath">
         <i class="el-icon-s-comment"></i>
         <span slot="title">留言板</span>
       </el-menu-item>
@@ -28,8 +28,14 @@
 export default {
   data() {
     return {
-      activeIndex: this.$route.path
+      activeIndex: this.$route.path,
+      roleId: "user"
     };
+  },
+  computed: {
+    messagePath() {
+      return this.roleId === "user" ? "/messageBoard" : "/messageList";
+    }
   },
   watch: {
     $route: {
@@ -42,6 +48,9 @@ export default {
   methods: {
     handleSelectMenu(key, keyPath) {
       // console.log(key, keyPath);
+      if (key === this.activeIndex) {
+        return;
+      }
       this.$router.push(key);
     }
   },
