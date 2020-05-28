@@ -7,16 +7,16 @@
       </h2>
     </header>
     <div class="card">
-      <el-form class="form" ref="resetForm" :model="resetForm">
+      <el-form class="form" label-width="100px" ref="resetForm" :model="resetForm">
         <el-form-item label="设置密码">
-          <el-input placeholder="设置密码" type="password" v-model="resetForm.name"></el-input>
+          <el-input type="password" v-model="resetForm.name"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="重复密码" type="password" v-model="resetForm.password"></el-input>
+        <el-form-item label="重复密码">
+          <el-input type="password" v-model="resetForm.password"></el-input>
         </el-form-item>
-        <el-form-item class="code-item">
-          <el-input placeholder="验证码" class="code-inp" v-model="resetForm.code"></el-input>
-          <el-button class="code-btn" @click="getCode">获取短信验证码</el-button>
+        <el-form-item label="验证码" class="code-item">
+          <el-input class="code-inp" v-model="resetForm.code"></el-input>
+          <img class="code-btn" @click="getCode" />
         </el-form-item>
         <el-form-item class="submit">
           <el-button type="primary" @click="submitPwd">修 改</el-button>
@@ -43,23 +43,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.code-item {
-  .code-inp {
-    width: 60%;
-    float: left;
-  }
-  .code-btn {
-    width: 40%;
-  }
-}
 .submit {
   margin-bottom: 0;
   /deep/ .el-button {
     float: right;
   }
 }
+.form {
+  margin-left: 100px;
+  width: 450px;
+}
 /deep/ .el-form-item {
-  width: 350px;
-  height: 40px;
+  height: 36px;
+  .el-input {
+    width: 350px;
+    height: 36px;
+  }
+  .el-input__inner {
+    height: 36px;
+  }
+  .el-form-item__content {
+    height: 36px;
+  }
+  &.code-item {
+    .code-inp {
+      width: 200px;
+      float: left;
+    }
+    .code-btn {
+      margin-left: 20px;
+      width: 130px;
+      height: 36px;
+      border-radius: 4px;
+      border: none;
+      position: relative;
+      top: 1px;
+    }
+  }
 }
 </style>

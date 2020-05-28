@@ -7,34 +7,29 @@
       </h2>
     </header>
     <div class="card">
-      <el-form ref="form" class="form" :model="form" :rules="formRules">
-        <el-form-item>
-          <el-input placeholder="登录名" v-model="form.name" disabled></el-input>
+      <el-form ref="form" class="form" label-width="100px" :model="form" :rules="formRules">
+        <el-form-item label="登录名">
+          <el-input v-model="form.name" disabled></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="姓名" v-model="form.name"></el-input>
+        <el-form-item label="姓名">
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item prop="email">
-          <el-input placeholder="Email" v-model="form.email"></el-input>
+        <el-form-item label="手机号">
+          <el-input maxlength="11" v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="公司" v-model="form.name"></el-input>
+
+        <el-form-item label="公司">
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="登录密码" type="password" v-model="form.password"></el-input>
+        <el-form-item label="职位">
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="重复密码" type="password" v-model="form.password"></el-input>
+        <el-form-item label="电子邮箱" prop="email">
+          <el-input v-model="form.email"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="职位" v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input placeholder="手机号" maxlength="11" v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item class="code-item">
-          <el-input placeholder="短信验证码" class="code-inp" v-model="form.code"></el-input>
-          <el-button class="code-btn" @click="getCode">获取短信验证码</el-button>
+        <el-form-item label="验证码" class="code-item">
+          <el-input class="code-inp" v-model="form.code"></el-input>
+          <img class="code-btn" @click="getCode">
         </el-form-item>
         <el-form-item class="submit">
           <el-button type="primary" @click="submitForm">修 改</el-button>
@@ -66,14 +61,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.code-item {
-  .code-inp {
-    width: 60%;
-    float: left;
-  }
-  .code-btn {
-    width: 40%;
-  }
+.form {
+  margin-left: 100px;
+  width: 450px;
 }
 .submit {
   margin-bottom: 0;
@@ -82,7 +72,31 @@ export default {
   }
 }
 /deep/ .el-form-item {
-  width: 350px;
-  height: 40px;
+  height: 36px;
+  .el-input {
+    width: 350px;
+    height: 36px;
+  }
+  .el-input__inner{
+    height: 36px;
+  }
+  .el-form-item__content {
+    height: 36px;
+  }
+  &.code-item {
+    .code-inp {
+      width: 200px;
+      float: left;
+    }
+    .code-btn {
+      margin-left: 20px;
+      width: 130px;
+      height: 36px;
+      border-radius: 4px;
+      border: none;
+      position: relative;
+      top: 1px;
+    }
+  }
 }
 </style>
