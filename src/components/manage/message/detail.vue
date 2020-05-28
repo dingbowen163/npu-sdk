@@ -10,8 +10,22 @@
       </h2>
     </header>
     <div class="card">
-      <div>
-        <span></span>
+      <div class="message-item">
+        <div></div>
+        <div>
+          <div class="message-title">
+            <span class="username">用户名</span>
+            <el-button class="reply-btn" type="primary" icon="el-icon-edit">回复</el-button>
+          </div>
+          <div class="question-content">记得放个假哦而无需 v 分？</div>
+        </div>
+        <el-input
+          type="textarea"
+          placeholder="请输入内容"
+          v-model="replyContent"
+          maxlength="30"
+          show-word-limit
+        ></el-input>
       </div>
     </div>
   </div>
@@ -29,6 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../../assets/styles/message.scss";
 .bread-nav {
   .go-back {
     display: block;
