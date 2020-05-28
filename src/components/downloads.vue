@@ -1,6 +1,8 @@
 <template>
   <div class="view downloads">
-    <el-card></el-card>
+    <el-card>
+      
+    </el-card>
   </div>
 </template>
 

@@ -57,7 +57,7 @@ export default new Router({
             },
             {
               path: "/messageList",
-              name: "messages",
+              name: "messageList",
               meta: {
                 title: "留言板"
               },
@@ -65,7 +65,7 @@ export default new Router({
             },
             {
               path: "/messageDetail/:id",
-              name: "messages",
+              name: "messageDetail",
               meta: {
                 title: "留言板"
               },
@@ -73,7 +73,7 @@ export default new Router({
             },
             {
               path: "/messageBoard",
-              name: "messages",
+              name: "messageBoard",
               meta: {
                 title: "留言板"
               },

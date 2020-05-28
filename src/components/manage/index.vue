@@ -18,6 +18,7 @@
         <span slot="title">修改密码</span>
       </el-menu-item>
     </el-menu>
+
     <div class="container">
       <router-view />
     </div>
@@ -29,7 +30,7 @@ export default {
   data() {
     return {
       activeIndex: this.$route.path,
-      roleId: "cs"
+      roleId: "user"
     };
   },
   computed: {
@@ -41,6 +42,9 @@ export default {
     $route: {
       handler: function(val, oldVal) {
         this.activeIndex = val.path;
+        if (val.name === "messageDetail") {
+          this.activeIndex = "/messageList";
+        }
       },
       deep: true
     }

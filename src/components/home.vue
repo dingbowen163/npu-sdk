@@ -1,11 +1,7 @@
 <template>
   <div class="home">
-    <el-menu
-      :default-active="activeIndex"
-      mode="horizontal"
-      @select="handleSelect"
-    >
-      <el-menu-item class="logo-menu" index="">
+    <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+      <el-menu-item class="logo-menu" index>
         <img src="../assets/img/logo.png" alt class="logo" />
       </el-menu-item>
       <el-menu-item index="/documents">文档</el-menu-item>
@@ -49,9 +45,16 @@ export default {
 <style lang="scss" scoped>
 .home {
   height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 .el-menu--horizontal {
+  width: 100%;
   padding: 0 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
 }
 .logo {
   width: 132px;
@@ -64,7 +67,7 @@ export default {
   float: left;
 }
 .main-view {
-  min-height: calc(100% - 61px);
-  position: relative;
+  height: 100%;
+  padding-top: 61px;
 }
 </style>
