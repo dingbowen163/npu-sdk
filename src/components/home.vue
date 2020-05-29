@@ -69,5 +69,6 @@ export default {
 .main-view {
   height: 100%;
   padding-top: 61px;
+  overflow-y: scroll;
 }
 </style>
