@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import {testLogin} from '../service/index'
 export default {
   data() {
     return {
@@ -64,10 +65,15 @@ export default {
       this.showResetPwd = true;
     },
     submitPwd() {},
-    getCode() {}
+    getCode() {},
+    async testLogin(){
+      let result = await testLogin()
+    }
   },
   components: {},
-  mounted() {}
+  mounted() {
+    this.testLogin()
+  }
 };
 </script>
 
