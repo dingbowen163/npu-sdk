@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'https://investment-test.jingdata.com',
+        target: 'http://39.104.51.85:4481/v1',
         changeOrigin: true
       }
     },

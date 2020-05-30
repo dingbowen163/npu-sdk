@@ -3,17 +3,24 @@
     <div class="content">
       <el-card shadow="hover" :body-style="{ padding: '30px' }" v-if="!showResetPwd">
         <h3 class="form-title">登录</h3>
-        <el-form class="form" ref="form" :model="form">
-          <el-form-item>
-            <el-input prefix-icon="el-icon-user" placeholder="登录名" v-model="form.name"></el-input>
+        <el-form class="form" ref="form" :model="form" :rules="formRules">
+          <el-form-item prop="user_id">
+            <el-input prefix-icon="el-icon-user" placeholder="登录名" v-model="form.user_id"></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              prefix-icon="el-icon-lock"
+              placeholder="密码"
+              type="password"
+              v-model="form.password"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input prefix-icon="el-icon-lock" placeholder="密码" type="password" v-model="form.password"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input placeholder="验证码" class="code-inp" v-model="form.code"></el-input>
+            <el-input placeholder="验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
             <span class="code-img">
-              <img src alt />
+              <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
+                <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />
+              </el-tooltip>
             </span>
           </el-form-item>
           <el-form-item class="btns">
@@ -48,32 +55,48 @@
 </template>
 
 <script>
-import {testLogin} from '../service/index'
+import { login } from "../service/home";
+import mixin from "../assets/js/verifyCodeMixin";
 export default {
+  mixins: [mixin],
   data() {
     return {
-      form: {},
+      form: {
+        user_id: "",
+        password: "",
+        check_code: ""
+      },
+      formRules: {
+        user_id: [{ required: true, message: "请填写登录名", trigger: "blur" }],
+        password: [{ required: true, message: "请填写密码", trigger: "blur" }],
+        check_code: [
+          { required: true, message: "请填写验证码", trigger: "blur" }
+        ]
+      },
       resetForm: {},
       showResetPwd: false
     };
   },
   methods: {
     submitForm() {
-      this.$router.push("/index");
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          const data = this.form;
+          data.check_id = this.codeInfo.check_id;
+          let result = await login({ data });
+          this.$message.success("登录成功");
+          this.$router.push("/index");
+        }
+      });
     },
     forgetPwd() {
       this.showResetPwd = true;
     },
     submitPwd() {},
-    getCode() {},
-    async testLogin(){
-      let result = await testLogin()
-    }
+    getCode() {}
   },
   components: {},
-  mounted() {
-    this.testLogin()
-  }
+  mounted() {}
 };
 </script>
 

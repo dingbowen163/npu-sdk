@@ -6,23 +6,9 @@ import {
   MessageBox
 } from 'element-ui'
 
-class CustomError extends Error {
-  constructor (name, options) {
-    // Pass remaining arguments (including vendor specific ones) to parent constructor
-    super(name)
-
-    this.data = options
-  }
-
-  toString () {
-    // console.log(JSON.stringify(this.data))
-    return JSON.stringify(this.data);
-  }
-}
-
 //跳转登录页
 function goToLogin(){
-  window.location.href = `${window.location.protocol}//${window.location.host}/protal/#/login`
+  window.location.href = `${window.location.protocol}//${window.location.host}/#/login`
 }
 
 const CancelToken = axios.CancelToken
@@ -85,46 +71,29 @@ class Http {
     try {
       const res = await ajaxRequest
 
-      const {
-        data = {
-          code: 10001,
-          message: '服务器返回数据错误',
-          data: null
-        }
-      } = res || {}
+      const { data } = res || {}
 
       let ret = null
-      if (opts.getRaw) {
-        ret = data
-      }else{
-        if (data.code === 0) {
-          if (opts.success) {
-            opts.success(data.result)
-          }
-          ret = data.result
-        } else if (data.code === 401) {
-          goToLogin();
-        } else {
-          ret = this.errorHandler(data, opts)
-          throw new CustomError('error', data)
-        }  
-      }
-
+      if (data.msg === 'ok') {
+        if (opts.success) {
+          opts.success(data.result)
+        }
+        ret = data.data
+      } else if (data.code === 401) {
+        goToLogin();
+      } else {
+        let errData = {
+          code: 10001,
+          message: data.msg,
+          data: null
+        }
+        ret = this.errorHandler(errData, opts)
+        throw new Error('error', data)
+      }  
       return ret
     } catch (err) {
-      if (err instanceof CustomError) {
+      if (err instanceof Error) {
         throw err
-      }
-      if (!(err instanceof axios.Cancel)) {
-        const {
-          data = {
-            code: 10500,
-            message: '服务器链接错误，请稍后再试！',
-            data: null
-          }
-        } = err.response || {}
-
-        return (this.errorHandler(data, opts))
       }
       return new Error('Request cancel!')
     };
@@ -139,11 +108,6 @@ class Http {
         center: true,
         type: 'error'
     })
-    if(data.code == 100000005){
-      setTimeout(()=>{
-        goToLogin();
-      }, 1500)
-    }
 
     return data.data
   }
