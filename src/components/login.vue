@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import { login } from "../service/home";
-import mixin from "../assets/js/verifyCodeMixin";
+import { login } from "@/service/home";
+import mixin from "@/assets/js/verifyCodeMixin";
 export default {
   mixins: [mixin],
   data() {
@@ -85,6 +85,7 @@ export default {
           data.check_id = this.codeInfo.check_id;
           let result = await login({ data });
           if (result.msg === "ok") {
+            localStorage.setItem('user_id', result.data.user_id)
             this.$message.success("登录成功");
             this.$router.push("/index");
           }
@@ -107,5 +108,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/styles/login.scss";
+@import "@/assets/styles/login.scss";
 </style>

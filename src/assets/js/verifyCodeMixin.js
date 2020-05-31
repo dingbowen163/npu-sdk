@@ -1,4 +1,4 @@
-import { getVerifyCode } from "../../service/home";
+import { getVerifyCode } from "@/service/home";
 
 export default {
   data() {

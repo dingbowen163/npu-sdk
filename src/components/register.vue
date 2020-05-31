@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import { checkemail, checkid, checkCode, register } from "../service/home";
-import mixin from "../assets/js/verifyCodeMixin";
+import { checkemail, checkid, checkCode, register } from "@/service/home";
+import mixin from "@/assets/js/verifyCodeMixin";
 export default {
   mixins: [mixin],
   data() {
@@ -167,5 +167,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/styles/login.scss";
+@import "@/assets/styles/login.scss";
 </style>

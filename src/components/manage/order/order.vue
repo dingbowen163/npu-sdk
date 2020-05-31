@@ -24,11 +24,13 @@
 </template>
 
 <script>
-import tableCom from "../../../common/table";
+import { getUserList } from "@/service/order";
+import tableCom from "@/common/table";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      roleId: "cs",
+      roleId: "user",
       filterInfo: {
         pageNum: 1
       },
@@ -37,6 +39,11 @@ export default {
           {
             label: "订单号",
             value: "name",
+            type: "TEXT"
+          },
+          {
+            label: "订单日期",
+            value: "date",
             type: "TEXT"
           },
           {
@@ -55,7 +62,7 @@ export default {
             type: "raw_html"
           },
           {
-            label: "原过期时间",
+            label: "过期时间",
             value: "date",
             type: "TEXT"
           },
@@ -171,6 +178,9 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapState("user", ["user_id", "role"])
+  },
   methods: {
     handleSetting(data) {
       let { command, row, date } = data;
@@ -189,12 +199,21 @@ export default {
     },
     handlePageChange(page) {
       this.filterInfo.pageNum = page;
+    },
+    async getList() {
+      let data = {
+        userid: this.user_id,
+        pageIndex: this.filterInfo.pageNum
+      };
+      let result = await getUserList({ data });
     }
   },
   components: {
     tableCom
   },
-  mounted() {}
+  mounted() {
+    this.getList();
+  }
 };
 </script>
 

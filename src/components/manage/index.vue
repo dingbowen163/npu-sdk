@@ -26,17 +26,18 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      activeIndex: this.$route.path,
-      roleId: "user"
+      activeIndex: this.$route.path
     };
   },
   computed: {
     messagePath() {
-      return this.roleId === "user" ? "/messageBoard" : "/messageList";
-    }
+      return this.role === 0 ? "/messageBoard" : "/messageList";
+    },
+    ...mapState("user", ["user_id", "name", "role"])
   },
   watch: {
     $route: {
@@ -50,6 +51,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("user", ["getUserData"]),
     handleSelectMenu(key, keyPath) {
       // console.log(key, keyPath);
       if (key === this.activeIndex) {
@@ -59,10 +61,12 @@ export default {
     }
   },
   components: {},
-  mounted() {}
+  mounted() {
+    this.getUserData();
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/styles/index.scss";
+@import "@/assets/styles/index.scss";
 </style>

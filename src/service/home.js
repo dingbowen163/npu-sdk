@@ -47,3 +47,19 @@ export async function login (extra) {
   }, extra, {withMsg: true}))
   return result
 }
+
+export async function getSelfInfo (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'get',
+    url: '/api/user/info'
+  }, extra))
+  return result
+}
+
+export async function logout (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'get',
+    url: '/api/user/info'
+  }, extra))
+  return result
+}
