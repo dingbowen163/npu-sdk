@@ -84,8 +84,14 @@ export default {
           const data = this.form;
           data.check_id = this.codeInfo.check_id;
           let result = await login({ data });
-          this.$message.success("登录成功");
-          this.$router.push("/index");
+          if (result.msg === "ok") {
+            this.$message.success("登录成功");
+            this.$router.push("/index");
+          }
+          else{
+            this.getVerifyCode();
+          }
+          console.log(result);
         }
       });
     },

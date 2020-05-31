@@ -1,17 +1,13 @@
-import axios from 'axios'
+import axios from "axios";
 
-import {
-  Message,
-  Notification,
-  MessageBox
-} from 'element-ui'
+import { Message, Notification, MessageBox } from "element-ui";
 
 //跳转登录页
-function goToLogin(){
-  window.location.href = `${window.location.protocol}//${window.location.host}/#/login`
+function goToLogin() {
+  window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
 }
 
-const CancelToken = axios.CancelToken
+const CancelToken = axios.CancelToken;
 
 /*
  * url 服务器 api地址
@@ -24,117 +20,130 @@ const CancelToken = axios.CancelToken
  */
 
 class Http {
-  constructor (opts = {}) {
+  constructor(opts = {}) {
     const {
       timeout = 30000,
-      baseUrl = '/api',
-      contentType = 'application/json',
+      baseUrl = "/api",
+      contentType = "application/json",
       withCredentials = true,
-      cancelToken = undefined
-    } = opts
+      cancelToken = undefined,
+      withMsg = false
+    } = opts;
 
-    this.timeout = timeout
-    this.baseUrl = baseUrl
-    this.contentType = contentType
-    this.withCredentials = withCredentials
-    this.cancelToken = cancelToken
+    this.timeout = timeout;
+    this.baseUrl = baseUrl;
+    this.contentType = contentType;
+    this.withCredentials = withCredentials;
+    this.cancelToken = cancelToken;
+    this.withMsg = withMsg;
   }
 
-  get (url, params = {}, opts = {}) {
-    return this.ajax('get', url, {
-      params
-    }, opts)
+  get(url, params = {}, opts = {}) {
+    return this.ajax("get", url, { params }, opts);
   }
 
-  post (url, data = {}, opts = {}) {
-    return this.ajax('post', url, {
-      data
-    }, opts)
+  post(url, data = {}, opts = {}) {
+    return this.ajax("post", url, { data }, opts);
   }
 
-  async ajax (method, url, params, opts = {}) {
+  async ajax(method, url, params, opts = {}) {
     const ajaxRequest = axios({
       method,
       url: opts.baseUrl ? opts.baseUrl + url : this.baseUrl + url,
       headers: {
-        'Content-Type': this.contentType,
+        "Content-Type": this.contentType,
         ...opts.headers
       },
       timeout: opts.timeout ? opts.timeout : this.timeout,
       onUploadProgress: opts.uploading,
       onDownloadProgress: opts.download,
-      withCredentials: opts.withCredentials !== undefined ? opts.withCredentials : this.withCredentials,
+      withCredentials:
+        opts.withCredentials !== undefined
+          ? opts.withCredentials
+          : this.withCredentials,
       cancelToken: opts.cancelToken ? opts.cancelToken : this.cancelToken,
       ...params
-    })
+    });
 
     try {
-      const res = await ajaxRequest
+      const res = await ajaxRequest;
 
-      const { data } = res || {}
+      const { data } = res || {};
 
-      let ret = null
-      if (data.msg === 'ok') {
+      let ret = null;
+      if (data.msg === "ok") {
         if (opts.success) {
-          opts.success(data.result)
+          opts.success(data.result);
         }
-        ret = data.data
+        ret = data;
       } else if (data.code === 401) {
         goToLogin();
       } else {
-        let errData = {
-          code: 10001,
-          message: data.msg,
-          data: null
+        if(this.withMsg){
+          Message({
+            message: data.msg,
+            center: true,
+            type: "error"
+          });
+          ret = data;
+         
         }
-        ret = this.errorHandler(errData, opts)
-        throw new Error('error', data)
-      }  
-      return ret
+        else{
+          let errData = {
+            code: 10001,
+            message: data.msg,
+            data: data.msg
+          };
+          ret = this.errorHandler(errData, opts);
+          throw new Error(ret);
+        }
+       
+      }
+      return ret;
     } catch (err) {
       if (err instanceof Error) {
-        throw err
+        throw err;
       }
-      return new Error('Request cancel!')
-    };
+      return new Error("Request cancel!");
+    }
   }
-  
-  errorHandler (data, opts) {
-    if (opts.failed && typeof opts.failed === 'function') {
-      opts.failed(data)
+
+  errorHandler(data, opts) {
+    if (opts.failed && typeof opts.failed === "function") {
+      opts.failed(data);
     }
     Message({
-        message: data.message,
-        center: true,
-        type: 'error'
-    })
+      message: data.message,
+      center: true,
+      type: "error"
+    });
 
-    return data.data
+    return data.data;
   }
 }
 
-export const http = new Http()
-export const mkCancel = function () {
-  let cancel
-  const token = new CancelToken((c) => {
-    cancel = c
-  })
+export const http = new Http();
+export const mkCancel = function() {
+  let cancel;
+  const token = new CancelToken(c => {
+    cancel = c;
+  });
   return {
     token,
     cancel
-  }
-}
-export async function ajax (config, otherOption = {}) {
-  let result = null
+  };
+};
+export async function ajax(config, otherOption = {}) {
+  let result = null;
   try {
-    const http = new Http(config)
-    result = await http.ajax(config.method, config.url, config, otherOption)
+    const http = new Http(config);
+    result = await http.ajax(config.method, config.url, config, otherOption);
   } catch (e) {
-    result = e
+    result = e;
   }
   if (result instanceof Error) {
-    throw result
+    throw result;
   }
 
-  return result
+  return result;
 }

@@ -44,6 +44,6 @@ export async function login (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
     url: '/api/user/login'
-  }, extra))
+  }, extra, {withMsg: true}))
   return result
 }

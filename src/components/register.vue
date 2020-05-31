@@ -114,15 +114,6 @@ export default {
         }
       }
     };
-    const validCode = async (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("请填写验证码"));
-      } else {
-        let data = { check_code: value, check_id: this.codeInfo.check_id };
-        // let result = await checkCode({ data });
-        return callback();
-      }
-    };
     return {
       form: {
         user_id: "",
@@ -148,7 +139,7 @@ export default {
         repeat_password: [
           { required: true, validator: validConfirmNewPwd, trigger: "blur" }
         ],
-        check_code: [{ required: true, validator: validCode, trigger: "blur" }]
+        check_code: [{ required: true, message: "请填写验证码", trigger: "blur" }]
       }
     };
   },
