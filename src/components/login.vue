@@ -33,20 +33,10 @@
         <h3 class="form-title">重置密码</h3>
         <el-form class="form" ref="resetForm" :model="resetForm">
           <el-form-item>
-            <el-input placeholder="设置密码" type="password" v-model="resetForm.name"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input placeholder="重复密码" type="password" v-model="resetForm.password"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input placeholder="手机号" maxlength="11" v-model="resetForm.name"></el-input>
-          </el-form-item>
-          <el-form-item class="code-item">
-            <el-input placeholder="短信验证码" class="code-inp" v-model="resetForm.code"></el-input>
-            <el-button class="code-btn" @click="getCode">获取短信验证码</el-button>
+            <el-input placeholder="注册邮箱" v-model="resetForm.name"></el-input>
           </el-form-item>
           <el-form-item class="btns">
-            <el-button class="submit" type="primary" @click="submitPwd">提交</el-button>
+            <el-button class="submit" type="primary" @click="submitPwd">发送密码重置邮件</el-button>
           </el-form-item>
         </el-form>
       </el-card>

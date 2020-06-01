@@ -23,7 +23,7 @@
         :label="item.label"
         :width="item.width"
         class-name="sdk-table-column-cell"
-        :min-width="130"
+        :min-width="80"
         show-overflow-tooltip
       >
         <template slot-scope="scope">

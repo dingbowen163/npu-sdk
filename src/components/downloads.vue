@@ -62,7 +62,7 @@ export default {
   font-family: PingFangSC-Regular;
   padding: 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
 }
@@ -109,7 +109,7 @@ export default {
 .info {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 5px;
   .info-item {
     span {

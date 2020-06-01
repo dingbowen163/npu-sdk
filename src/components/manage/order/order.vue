@@ -90,6 +90,16 @@ export default {
             type: "TEXT"
           },
           {
+            label: "姓名",
+            value: "name",
+            type: "TEXT"
+          },
+          {
+            label: "订单日期",
+            value: "name",
+            type: "TEXT"
+          },
+          {
             label: "授权码",
             value: "name",
             type: "TEXT"
@@ -126,7 +136,7 @@ export default {
             date: "2016-05-01",
             name: "王小",
             docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status1"></i><span>过期</span>`,
+            statusStr: `<i class="statusDot status2"></i><span>过期</span>`,
             newDate: "2016-08-02",
             showBtns: true
           },
@@ -134,13 +144,13 @@ export default {
             date: "2016-05-02",
             name: "王",
             docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status2"></i><span>申请</span>`
+            statusStr: `<i class="statusDot status1"></i><span>申请</span>`
           },
           {
             date: "2016-05-03",
             name: "王小虎",
             docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status3"></i><span>正常</span>`,
+            statusStr: `<i class="statusDot status0"></i><span>正常</span>`,
             newDate: "2020-08-02",
             showBtns: true
           }

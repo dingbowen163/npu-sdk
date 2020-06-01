@@ -26,7 +26,7 @@
           >提交</el-link>
           <el-link type="info" class="submit-btn" :underline="false">取消</el-link>
         </div>
-        <div class="message-item" v-for="item in 4" :key="item">
+        <div class="message-item" v-for="item in 1" :key="item">
           <div class="question">
             <div class="left-img">
               <i class="el-icon-chat-dot-round"></i>
