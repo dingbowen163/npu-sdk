@@ -9,11 +9,12 @@
   position: fixed;
   left: 0;
   top: 61px;
+  z-index: 99;
 }
 .container {
-  padding-left: 200px;
+  margin-left: 200px;
   position: relative;
-  // padding: 20px;
+  padding: 20px;
   .content-view {
     width: 100%;
 
