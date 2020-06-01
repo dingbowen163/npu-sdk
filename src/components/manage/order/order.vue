@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { getUserList } from "@/service/order";
+import { getUserList, setUserExpired } from "@/service/order";
 import tableCom from "@/common/table";
 import { mapState } from "vuex";
 export default {
@@ -171,16 +171,24 @@ export default {
     handleSetting(data) {
       let { command, row, date } = data;
       if (command === "delayDate") {
-        console.log(11)
         this.handleDelayDate({ row, date });
       }
     },
     // 确定延期
-    handleDelayDate({ row, date }) {
+    async handleDelayDate({ row, date }) {
+      console.log(row, data);
+      let { order_id, expired_date } = row;
       if (!date) {
         this.$message.error("请选择日期");
         return;
       }
+      let data = {
+        order_id,
+        expired_date,
+        expired_date_req: date,
+        action: "apply"
+      };
+      let result = await setUserExpired({data});
       this.$message.success("过期时间已延期");
       row.visible = false;
     },
@@ -195,22 +203,19 @@ export default {
       this.loading = true;
       let result = await getUserList({ params });
       this.loading = false;
-      if (result.msg === "ok") {
-        let data = result.data;
-        let { pageindex, pagesize, total, list } = data;
-        this.tableMetas.pageInfo = { total, pageindex, pagesize };
-        this.tableMetas.tableData = list;
-        list.forEach(item => {
-          let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
-          item.percent = `${dev_used} / ${dev_total}`;
-          item.docs = `<a href="${url_keydat}">下载</a>`;
-          item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
-          if (state !== 1) {
-            item.visible = false;
-            item.operate = "延期";
-          }
-        });
-      }
+      let { pageindex, pagesize, total, list } = result;
+      this.tableMetas.pageInfo = { total, pageindex, pagesize };
+      this.tableMetas.tableData = list;
+      list.forEach(item => {
+        let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
+        item.percent = `${dev_used} / ${dev_total}`;
+        item.docs = `<a href="${url_keydat}">下载</a>`;
+        item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+        if (state !== 1) {
+          item.visible = false;
+          item.operate = "延期";
+        }
+      });
     }
   },
   components: {

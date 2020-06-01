@@ -148,7 +148,7 @@ export default {
       this.$refs.form.validate(async valid => {
         if (valid) {
           const data = this.form;
-          delete data.check_code;
+          data.check_id = this.codeInfo.check_id;
           delete data.repeat_password;
           let result = await register({ data });
           this.$message.success('账号注册成功')

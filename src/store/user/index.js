@@ -25,8 +25,7 @@ export default {
           userid: localStorage.getItem("user_id")
         };
         if (params.userid) {
-          const [result] = await Promise.all([getSelfInfo({ params })]);
-          let userInfo = result.data;
+          const [userInfo] = await Promise.all([getSelfInfo({ params })]);
           if (userInfo) {
             commit("setUserId", userInfo.user_id);
             commit("setUserName", userInfo.name);

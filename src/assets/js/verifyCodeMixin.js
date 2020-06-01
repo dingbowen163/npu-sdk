@@ -13,7 +13,7 @@ export default {
     async getVerifyCode() {
       this.codeInfo = {};
       let result = await getVerifyCode();
-      this.codeInfo = result.data;
+      this.codeInfo = result;
       this.form.check_code = ''
     }
   }

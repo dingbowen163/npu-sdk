@@ -75,7 +75,7 @@ class Http {
         if (opts.success) {
           opts.success(data.result);
         }
-        ret = data;
+        ret = this.withMsg ? data : data.data;
       } else if (data.code === 401) {
         goToLogin();
       } else {
