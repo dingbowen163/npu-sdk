@@ -6,20 +6,21 @@
         <span>订单管理</span>
       </h2>
     </header>
-    <div class="card">
-      <table-com
-        :metas="tableMetas"
-        :loading="loading"
-        @settingsClick="handleSetting"
-        @currentChange="handlePageChange"
-        v-if="role === 0"
-      ></table-com>
-      <table-com
-        :metas="csTableMetas"
-        @settingsClick="handleSetting"
-        @currentChange="handlePageChange"
-        v-if="role === 1"
-      ></table-com>
+    <div class="card" v-loading="loading">
+      <div v-if="!loading">
+        <table-com
+          :metas="tableMetas"
+          @settingsClick="handleSetting"
+          @currentChange="handlePageChange"
+          v-if="role === 0"
+        ></table-com>
+        <table-com
+          :metas="csTableMetas"
+          @settingsClick="handleSetting"
+          @currentChange="handlePageChange"
+          v-if="role === 1"
+        ></table-com>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +36,7 @@ export default {
         pageindex: 1
       },
       stateArr: ["正常", "申请中", "过期"],
-      loading: false,
+      loading: true,
       tableMetas: {
         headerData: [
           {
@@ -54,7 +55,7 @@ export default {
             type: "TEXT"
           },
           {
-            label: "使用/总数",
+            label: "使用 / 总数",
             value: "percent",
             type: "TEXT"
           },
@@ -64,19 +65,20 @@ export default {
             type: "raw_html"
           },
           {
+            label: "状态",
+            value: "statusStr",
+            type: "raw_html"
+          },
+          {
             label: "过期时间",
             value: "expired_date",
             type: "TEXT"
           },
           {
             label: "操作",
-            value: "operate",
-            type: "operate_btn"
-          },
-          {
-            label: "状态",
-            value: "statusStr",
-            type: "raw_html"
+            value: "menu",
+            type: "menu",
+            fixed: "right"
           }
         ],
         tableData: [],
@@ -105,9 +107,14 @@ export default {
             type: "TEXT"
           },
           {
-            label: "使用/总数",
+            label: "使用 / 总数",
             value: "name",
             type: "TEXT"
+          },
+          {
+            label: "状态",
+            value: "statusStr",
+            type: "raw_html"
           },
           {
             label: "原过期时间",
@@ -117,18 +124,14 @@ export default {
           {
             label: "新过期时间",
             value: "newDate",
-            type: "new_date",
-            width: "185"
-          },
-          {
-            label: "状态",
-            value: "statusStr",
-            type: "raw_html"
+            type: "TEXT"
           },
           {
             label: "操作",
-            value: "operate",
-            type: "raw_html_operate"
+            value: "menu",
+            type: "menu",
+            fixed: "right",
+            width: 130
           }
         ],
         tableData: [
@@ -138,21 +141,39 @@ export default {
             docs: '<a href="">下载</a>',
             statusStr: `<i class="statusDot status2"></i><span>过期</span>`,
             newDate: "2016-08-02",
-            showBtns: true
+            showBtns: true,
+            menu: [
+              {
+                type: "changeDate",
+                command: "updateDate",
+                title: "修改",
+                visible: false
+              },
+              {
+                command: "pass",
+                title: "通过",
+                buttonType: "success"
+              },
+              {
+                command: "refuse",
+                title: "拒绝",
+                buttonType: "danger"
+              }
+            ]
           },
           {
             date: "2016-05-02",
             name: "王",
             docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status1"></i><span>申请</span>`
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎",
-            docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status0"></i><span>正常</span>`,
-            newDate: "2020-08-02",
-            showBtns: true
+            statusStr: `<i class="statusDot status1"></i><span>申请</span>`,
+            menu: [
+              {
+                type: "changeDate",
+                command: "updateDate",
+                title: "修改",
+                visible: false
+              }
+            ]
           }
         ],
         pageInfo: {
@@ -180,13 +201,13 @@ export default {
   methods: {
     handleSetting(data) {
       let { command, row, date } = data;
+      console.log(command);
       if (command === "delayDate") {
         this.handleDelayDate({ row, date });
       }
     },
     // 确定延期
     async handleDelayDate({ row, date }) {
-      console.log(row, data);
       let { order_id, expired_date } = row;
       if (!date) {
         this.$message.error("请选择日期");
@@ -198,8 +219,8 @@ export default {
         expired_date_req: date,
         action: "apply"
       };
-      let result = await setUserExpired({data});
-      this.$message.success("过期时间已延期");
+      // let result = await setUserExpired({ data });
+      // this.$message.success("过期时间已延期");
       row.visible = false;
     },
     handlePageChange(page) {
@@ -212,19 +233,29 @@ export default {
       };
       this.loading = true;
       let result = await getUserList({ params });
-      this.loading = false;
+
       let { pageindex, pagesize, total, list } = result;
       this.tableMetas.pageInfo = { total, pageindex, pagesize };
-      this.tableMetas.tableData = list;
+
       list.forEach(item => {
         let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
         item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
         if (state !== 1) {
-          item.visible = false;
-          item.operate = "延期";
+          item.menu = [
+            {
+              type: "changeDate",
+              command: "delayDate",
+              title: "延期",
+              visible: false
+            }
+          ];
         }
+
+        this.tableMetas.tableData = list;
+
+        this.loading = false;
       });
     }
   },

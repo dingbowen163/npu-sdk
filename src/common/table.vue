@@ -2,7 +2,6 @@
   <div class="view table">
     <el-table
       :data="tableData"
-      v-loading="loading"
       border
       stripe
       style="width: 100%"
@@ -23,67 +22,58 @@
         :label="item.label"
         :width="item.width"
         class-name="sdk-table-column-cell"
-        :min-width="80"
+
         show-overflow-tooltip
       >
         <template slot-scope="scope">
           <div v-if="item.type === 'raw_html'" v-html="scope.row[item.value] || '—'"></div>
-
-          <div v-else-if="item.type === 'operate_btn' && scope.row[item.value]">
-            <el-popover placement="bottom" v-model="scope.row.visible" @show="showPopover">
-              <el-date-picker
-                v-model="date"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd"
-              ></el-date-picker>
-              <div class="popoverBtns">
-                <el-button type="text" @click="scope.row.visible = false">取消</el-button>
-                <el-button
-                  type="primary"
-                  @click="handleClick({command: 'delayDate', row: scope.row, date})"
-                >确定</el-button>
-              </div>
-              <el-button slot="reference">{{scope.row[item.value]}}</el-button>
-            </el-popover>
-          </div>
-
-          <div v-else-if="item.type === 'new_date'">
-            <span class="data-con">{{scope.row[item.value] || '—'}}</span>
-            <el-popover placement="bottom" v-model="scope.row.visible" @show="showPopover">
-              <el-date-picker
-                v-model="date"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd"
-              ></el-date-picker>
-              <div class="popoverBtns">
-                <el-button type="text" @click="scope.row.visible = false">取消</el-button>
-                <el-button
-                  type="primary"
-                  @click="handleClick({command: 'delayDate', row: scope.row, date})"
-                >确定</el-button>
-              </div>
-              <el-button slot="reference">修改</el-button>
-            </el-popover>
-          </div>
-
-          <div v-else-if="item.type === 'raw_html_operate'">
-            <el-button-group v-if="scope.row.showBtns">
-              <el-button type="success" plain>通过</el-button>
-              <el-button type="danger" plain>拒绝</el-button>
-            </el-button-group>
-          </div>
-
           <span
             v-else-if="item.type === 'link'"
             class="link-cell"
             @click="handleClick({command: 'gotoLink', row: scope.row})"
           >{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
+          <div v-else-if="item.type === 'menu'">
+            <span v-for="(btn, i) in scope.row.menu" :key="i">
+              <el-popover
+                placement="bottom"
+                @show="showPopover"
+                trigger="click"
+                v-model="btn.visible"
+                v-show="btn.type === 'changeDate'"
+              >
+                <el-date-picker v-model="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>
+                <div class="popoverBtns">
+                  <el-button type="text" @click="btn.visible = false">取消</el-button>
+                  <el-button
+                    type="primary"
+                    @click="handleClick({command: btn.command, row: scope.row, date})"
+                  >确定</el-button>
+                </div>
+                <el-link slot="reference">{{btn.title}}</el-link>
+              </el-popover>
 
+              <el-link
+                :type="btn.buttonType"
+                @click="handleClick({command: btn.command, row: scope.row})"
+                v-show="btn.type !== 'changeDate'"
+              >{{btn.title}}</el-link>
+            </span>
+          </div>
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>
       </el-table-column>
+      <!-- <el-table-column
+        label="操作"
+        prop="set"
+        fixed="right"
+        header-align="center"
+        align="center"
+        label-class-name="sdk-table-header-label sdk-table-setting-header"
+      >
+        <template slot-scope="scope">
+         
+        </template>
+      </el-table-column>-->
     </el-table>
     <el-pagination
       class="setting-pagination-panel"
@@ -97,6 +87,8 @@
 </template>
 
 <script>
+import { cloneDeep } from "lodash";
+
 export default {
   props: {
     metas: {
@@ -104,29 +96,17 @@ export default {
       default: () => {
         return {};
       }
-    },
-    loading: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
     return {
-      tableData: this.metas.tableData,
-      headerData: this.metas.headerData,
+      tableData: [],
+      headerData: [],
       pageInfo: this.metas.pageInfo,
-      date: ""
+      date: "",
+
+      visible: false
     };
-  },
-  watch: {
-    metas: {
-      handler(v) {
-        this.tableData = v.tableData;
-        this.headerData = v.headerData;
-        this.pageInfo = v.pageInfo;
-      },
-      deep: true
-    }
   },
   methods: {
     handleClick(data) {
@@ -137,11 +117,19 @@ export default {
     },
     currentPageChange(page) {
       this.$emit("currentChange", page);
+    },
+    linkClick(btn) {
+      console.log(btn);
+      btn.visible = true;
+      this.$set(btn, "visible", true);
     }
   },
   components: {},
   mounted() {
-    console.log(this.metas);
+    this.tableData = cloneDeep(this.metas.tableData);
+    this.headerData = cloneDeep(this.metas.headerData);
+    console.log(this.metas.tableData);
+    console.log(this.tableData);
   }
 };
 </script>
