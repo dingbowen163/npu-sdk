@@ -2,7 +2,7 @@
   <div class="home">
     <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
       <el-menu-item class="logo-menu" index>
-        <img src="@/assets/img/logo.png" alt class="logo" />
+        <!-- <img src="@/assets/img/logo.png" alt class="logo" /> -->
       </el-menu-item>
       <el-menu-item index="/documents">文档</el-menu-item>
       <el-menu-item index="/downloads">下载</el-menu-item>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { logout } from "@/service/home";
 import { mapActions, mapState } from "vuex";
 export default {
   data() {
@@ -50,11 +51,18 @@ export default {
     },
     handleCommand(command) {
       if (command === "logout") {
-        this.$message.success("退出成功");
-        localStorage.clear();
-        this.$router.push("/login");
-        this.getUserData();
+        this.logout();
       }
+    },
+    async logout() {
+      let params = {
+        userid: this.user_id
+      }
+      let result = await logout({params});
+      this.$message.success("退出成功");
+      localStorage.clear();
+      this.$router.push("/login");
+      this.getUserData();
     },
     ...mapActions("user", ["getUserData"])
   },

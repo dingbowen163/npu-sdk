@@ -30,7 +30,7 @@ export default {
           if (userInfo) {
             commit("setUserId", userInfo.user_id);
             commit("setUserName", userInfo.name);
-            commit("setUserRole", userInfo.name);
+            commit("setUserRole", userInfo.role);
           }
         }
         else{

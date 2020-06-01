@@ -59,7 +59,7 @@ export async function getSelfInfo (extra) {
 export async function logout (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/user/info'
+    url: '/api/user/logout'
   }, extra))
   return result
 }

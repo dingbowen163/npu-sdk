@@ -2,6 +2,7 @@
   <div class="view table">
     <el-table
       :data="tableData"
+      v-loading="loading"
       border
       stripe
       style="width: 100%"
@@ -22,7 +23,7 @@
         :label="item.label"
         :width="item.width"
         class-name="sdk-table-column-cell"
-        :min-width="150"
+        :min-width="130"
         show-overflow-tooltip
       >
         <template slot-scope="scope">
@@ -79,7 +80,7 @@
             class="link-cell"
             @click="handleClick({command: 'gotoLink', row: scope.row})"
           >{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
-          
+
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>
       </el-table-column>
@@ -88,8 +89,8 @@
       class="setting-pagination-panel"
       layout="prev, pager, next"
       :total="pageInfo.total"
-      :current-page="pageInfo.pageNum"
-      :page-size="pageInfo.pageSize"
+      :current-page="pageInfo.pageindex"
+      :page-size="pageInfo.pagesize"
       @current-change="currentPageChange"
     ></el-pagination>
   </div>
@@ -103,6 +104,10 @@ export default {
       default: () => {
         return {};
       }
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -118,6 +123,7 @@ export default {
       handler(v) {
         this.tableData = v.tableData;
         this.headerData = v.headerData;
+        this.pageInfo = v.pageInfo;
       },
       deep: true
     }

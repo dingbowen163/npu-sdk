@@ -9,15 +9,16 @@
     <div class="card">
       <table-com
         :metas="tableMetas"
+        :loading="loading"
         @settingsClick="handleSetting"
         @currentChange="handlePageChange"
-        v-if="roleId === 'user'"
+        v-if="role === 0"
       ></table-com>
       <table-com
         :metas="csTableMetas"
         @settingsClick="handleSetting"
         @currentChange="handlePageChange"
-        v-if="roleId === 'cs'"
+        v-if="role === 1"
       ></table-com>
     </div>
   </div>
@@ -30,30 +31,31 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      roleId: "user",
       filterInfo: {
-        pageNum: 1
+        pageindex: 1
       },
+      stateArr: ["正常", "申请中", "过期"],
+      loading: false,
       tableMetas: {
         headerData: [
           {
             label: "订单号",
-            value: "name",
+            value: "order_id",
             type: "TEXT"
           },
           {
             label: "订单日期",
-            value: "date",
+            value: "order_date",
             type: "TEXT"
           },
           {
             label: "授权码",
-            value: "name",
+            value: "key_code",
             type: "TEXT"
           },
           {
             label: "使用/总数",
-            value: "name",
+            value: "percent",
             type: "TEXT"
           },
           {
@@ -63,7 +65,7 @@ export default {
           },
           {
             label: "过期时间",
-            value: "date",
+            value: "expired_date",
             type: "TEXT"
           },
           {
@@ -77,35 +79,8 @@ export default {
             type: "raw_html"
           }
         ],
-        tableData: [
-          {
-            date: "2016-05-01",
-            name: "王小",
-            docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status1"></i><span>过期</span>`,
-            operate: "延期",
-            visible: false
-          },
-          {
-            date: "2016-05-02",
-            name: "王",
-            docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status2"></i><span>申请</span>`
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎",
-            docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status3"></i><span>正常</span>`,
-            operate: "延期",
-            visible: false
-          }
-        ],
-        pageInfo: {
-          total: 20,
-          pageNum: 1,
-          pageSize: 10
-        }
+        tableData: [],
+        pageInfo: {}
       },
       csTableMetas: {
         headerData: [
@@ -172,8 +147,8 @@ export default {
         ],
         pageInfo: {
           total: 20,
-          pageNum: 1,
-          pageSize: 10
+          pageindex: 1,
+          pagesize: 10
         }
       }
     };
@@ -181,10 +156,22 @@ export default {
   computed: {
     ...mapState("user", ["user_id", "role"])
   },
+  watch: {
+    user_id: {
+      handler: function(val) {
+        if (val) {
+          this.getList();
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
     handleSetting(data) {
       let { command, row, date } = data;
       if (command === "delayDate") {
+        console.log(11)
         this.handleDelayDate({ row, date });
       }
     },
@@ -198,21 +185,39 @@ export default {
       row.visible = false;
     },
     handlePageChange(page) {
-      this.filterInfo.pageNum = page;
+      this.filterInfo.pageindex = page;
     },
     async getList() {
-      let data = {
+      let params = {
         userid: this.user_id,
-        pageIndex: this.filterInfo.pageNum
+        pageIndex: this.filterInfo.pageindex
       };
-      let result = await getUserList({ data });
+      this.loading = true;
+      let result = await getUserList({ params });
+      this.loading = false;
+      if (result.msg === "ok") {
+        let data = result.data;
+        let { pageindex, pagesize, total, list } = data;
+        this.tableMetas.pageInfo = { total, pageindex, pagesize };
+        this.tableMetas.tableData = list;
+        list.forEach(item => {
+          let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
+          item.percent = `${dev_used} / ${dev_total}`;
+          item.docs = `<a href="${url_keydat}">下载</a>`;
+          item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+          if (state !== 1) {
+            item.visible = false;
+            item.operate = "延期";
+          }
+        });
+      }
     }
   },
   components: {
     tableCom
   },
   mounted() {
-    this.getList();
+    // this.getList();
   }
 };
 </script>

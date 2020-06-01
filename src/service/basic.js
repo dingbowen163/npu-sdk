@@ -86,7 +86,6 @@ class Http {
             type: "error"
           });
           ret = data;
-         
         }
         else{
           let errData = {
@@ -97,7 +96,6 @@ class Http {
           ret = this.errorHandler(errData, opts);
           throw new Error(ret);
         }
-       
       }
       return ret;
     } catch (err) {
