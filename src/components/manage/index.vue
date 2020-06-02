@@ -51,9 +51,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("user", ["getUserData"]),
     handleSelectMenu(key, keyPath) {
-      // console.log(key, keyPath);
       if (key === this.activeIndex) {
         return;
       }
@@ -61,9 +59,7 @@ export default {
     }
   },
   components: {},
-  mounted() {
-    this.getUserData();
-  }
+  mounted() {}
 };
 </script>
 

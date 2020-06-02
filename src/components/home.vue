@@ -9,7 +9,7 @@
       <el-menu-item index="/register" class="fr" v-if="!name">注册</el-menu-item>
       <el-menu-item index="/login" class="fr" v-if="!name">登录</el-menu-item>
       <el-dropdown class="logout fr" trigger="click" @command="handleCommand" v-if="name">
-        <span class="el-dropdown-link">
+        <span class="el-dropdown-link" @click="backSystem">
           <el-avatar icon="el-icon-user-solid"></el-avatar>
           <span class="username">欢迎你，{{name}}</span>
           <i class="el-icon-arrow-down el-icon--right"></i>
@@ -57,17 +57,24 @@ export default {
     async logout() {
       let params = {
         userid: this.user_id
-      }
-      let result = await logout({params});
+      };
+      let result = await logout({ params });
       this.$message.success("退出成功");
       localStorage.clear();
       this.$router.push("/login");
       this.getUserData();
     },
-    ...mapActions("user", ["getUserData"])
+    ...mapActions("user", ["getUserData"]),
+    backSystem() {
+      if (this.$route.name === "downloads") {
+        this.$router.push("/index");
+      }
+    }
   },
   components: {},
-  mounted() {}
+  mounted() {
+    this.getUserData();
+  }
 };
 </script>
 
@@ -120,6 +127,9 @@ export default {
     margin-right: 5px;
     float: left;
     line-height: 43px;
+    &:hover {
+      color: #409eff;
+    }
   }
   .el-icon--right {
     float: left;

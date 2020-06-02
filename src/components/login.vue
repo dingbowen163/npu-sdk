@@ -16,7 +16,12 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input placeholder="请输入图形中的验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
+            <el-input
+              placeholder="请输入图形中的验证码"
+              class="code-inp"
+              maxlength="5"
+              v-model="form.check_code"
+            ></el-input>
             <span class="code-img">
               <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
                 <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />
@@ -47,6 +52,7 @@
 <script>
 import { login } from "@/service/home";
 import mixin from "@/assets/js/verifyCodeMixin";
+import { mapActions, mapState } from "vuex";
 export default {
   mixins: [mixin],
   data() {
@@ -68,6 +74,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("user", ["getUserData"]),
     submitForm() {
       this.$refs.form.validate(async valid => {
         if (valid) {
@@ -75,11 +82,11 @@ export default {
           data.check_id = this.codeInfo.check_id;
           let result = await login({ data });
           if (result.msg === "ok") {
-            localStorage.setItem('user_id', result.data.user_id)
+            localStorage.setItem("user_id", result.data.user_id);
             this.$message.success("登录成功");
             this.$router.push("/index");
-          }
-          else{
+            this.getUserData();
+          } else {
             this.getVerifyCode();
           }
         }
