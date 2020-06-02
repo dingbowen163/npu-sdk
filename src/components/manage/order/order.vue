@@ -202,12 +202,41 @@ export default {
       let { command, row, date, btn } = data;
       console.log(command);
       if (command === "delayDate") {
-        this.handleDelayDate({ row, date,btn });
+        this.handleDelayDate({ row, date, btn });
       } else if (command === "approve") {
+        this.$confirm("是否通过申请?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          let { order_id, expired_date, expired_date_req } = row;
+          let data = Object.assign(
+            { order_id, expired_date, expired_date_req },
+            { action: "approve" }
+          );
+          this.updateStatus(data);
+        });
+      } else if (command === "reject") {
+        this.$confirm("是否拒绝申请?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          let { order_id, expired_date, expired_date_req } = row;
+          let data = Object.assign(
+            { order_id, expired_date, expired_date_req },
+            { action: "reject" }
+          );
+          this.updateStatus(data);
+        });
       }
     },
+    async updateStatus(data) {
+      let result = await setUserExpired({ data });
+      this.$message.success("订单操作成功");
+    },
     // 确定延期
-    async handleDelayDate({ row, date,btn }) {
+    async handleDelayDate({ row, date, btn }) {
       let { order_id, expired_date } = row;
       if (!date) {
         this.$message.error("请选择日期");
@@ -221,7 +250,7 @@ export default {
       };
       let result = await setUserExpired({ data });
       this.$message.success("过期时间已延期");
-      btn.visible = false
+      btn.visible = false;
     },
     handlePageChange(page) {
       this.filterInfo.pageindex = page;
@@ -242,7 +271,7 @@ export default {
       this.tableMetas.pageInfo = { total, pageindex, pagesize };
 
       list.forEach(item => {
-        let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
+        let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中 2-过期
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
         item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
@@ -266,21 +295,31 @@ export default {
       let { pageindex, pagesize, total, list } = result;
       this.csTableMetas.pageInfo = { total, pageindex, pagesize };
 
+      const approveItem = {
+          command: "approve",
+          title: "通过",
+          buttonType: "success"
+        },
+        rejectItem = {
+          command: "reject",
+          title: "拒绝",
+          buttonType: "danger"
+        };
       list.forEach(item => {
         let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中 2-过期
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
         item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
-        item.menu = [];
-        if (state !== 1) {
-          item.menu = [
-            {
-              type: "changeDate",
-              command: "delayDate",
-              title: "延期",
-              visible: false
-            }
-          ];
+        item.menu = [
+          {
+            type: "changeDate",
+            command: "delayDate",
+            title: "延期",
+            visible: false
+          }
+        ];
+        if (state !== 0) {
+          item.menu.push(approveItem, rejectItem);
         }
         this.csTableMetas.tableData = list;
         this.loading = false;

@@ -9,9 +9,9 @@
         </ul>
       </div>
       <div class="info-body">
-        <p class="describe">{{item.Description}}</p>
+        <div class="describe" v-html="item.Description"></div>
 
-        <ul class="info">
+        <!-- <ul class="info">
           <li class="info-item">
             <span class="title">网络结构</span>
             <span class="text">ResNet-50</span>
@@ -34,7 +34,7 @@
             <span class="title">特征长度</span>
             <span class="text">1024</span>
           </li>
-        </ul>
+        </ul> -->
       </div>
       <div class="bottom clearfix">
         <el-button class="download-btn" type="primary" icon="el-icon-download" @click="download(item.url_download)">下 载</el-button>
