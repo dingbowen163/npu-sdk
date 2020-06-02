@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import { getList } from "@/service/messages";
 export default {
   data() {
     return {

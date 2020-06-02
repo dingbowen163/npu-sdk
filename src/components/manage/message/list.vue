@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import tableCom from "../../../common/table";
+import { getList } from "@/service/messages";
+import tableCom from "@/common/table";
 export default {
   data() {
     return {
