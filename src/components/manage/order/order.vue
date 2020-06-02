@@ -92,6 +92,11 @@ export default {
             type: "TEXT"
           },
           {
+            label: "登录名",
+            value: "name",
+            type: "TEXT"
+          },
+          {
             label: "姓名",
             value: "name",
             type: "TEXT"
@@ -123,7 +128,7 @@ export default {
           },
           {
             label: "新过期时间",
-            value: "xpired_date_req",
+            value: "expired_date_req",
             type: "TEXT"
           },
           {
@@ -200,7 +205,6 @@ export default {
   methods: {
     handleSetting(data) {
       let { command, row, date, btn } = data;
-      console.log(command);
       if (command === "delayDate") {
         this.handleDelayDate({ row, date, btn });
       } else if (command === "approve") {
@@ -232,8 +236,10 @@ export default {
       }
     },
     async updateStatus(data) {
+      data.expired_date_req = `${data.expired_date_req} 00:00:00`;
       let result = await setUserExpired({ data });
       this.$message.success("订单操作成功");
+      this.getList();
     },
     // 确定延期
     async handleDelayDate({ row, date, btn }) {
@@ -249,8 +255,9 @@ export default {
         action: "apply"
       };
       let result = await setUserExpired({ data });
-      this.$message.success("过期时间已延期");
+      this.$message.success(`过期时间已${btn.title}`);
       btn.visible = false;
+      this.getList();
     },
     handlePageChange(page) {
       this.filterInfo.pageindex = page;
@@ -314,7 +321,7 @@ export default {
           {
             type: "changeDate",
             command: "delayDate",
-            title: "延期",
+            title: "修改",
             visible: false
           }
         ];

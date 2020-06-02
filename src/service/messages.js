@@ -7,3 +7,11 @@ export async function getList (extra) {
   }, extra))
   return result
 }
+
+export async function addQuestion (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'post',
+    url: '/api/inquirys/add'
+  }, extra))
+  return result
+}

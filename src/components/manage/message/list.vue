@@ -6,8 +6,9 @@
         <span>留言板</span>
       </h2>
     </header>
-    <div class="card">
+    <div class="card" v-loading="loading">
       <table-com
+        v-if="!loading"
         :metas="tableMetas"
         @settingsClick="handleSetting"
         @currentChange="handlePageChange"
@@ -19,11 +20,13 @@
 <script>
 import { getList } from "@/service/messages";
 import tableCom from "@/common/table";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      loading: false,
       filterInfo: {
-        pageNum: 1
+        pageIndex: 1
       },
       tableMetas: {
         headerData: [
@@ -68,23 +71,45 @@ export default {
             id: 3
           }
         ],
-        pageInfo: {
-          total: 20,
-          pageNum: 1,
-          pageSize: 10
-        }
+        pageInfo: {}
       }
     };
+  },
+  computed: {
+    ...mapState("user", ["user_id"])
+  },
+  watch: {
+    user_id: {
+      handler: function(val) {
+        if (val) {
+          this.getList();
+        }
+      },
+      immediate: true,
+      deep: true
+    }
   },
   methods: {
     handleSetting(data) {
       let { command, row } = data;
       if (command === "gotoLink") {
-        this.$router.push(`/messageDetail/${row.id}`)
+        this.$router.push(`/messageDetail/${row.id}`);
       }
     },
     handlePageChange(page) {
       this.filterInfo.pageNum = page;
+    },
+    async getList() {
+      let params = {
+        userid: this.user_id,
+        pageIndex: this.filterInfo.pageIndex
+      };
+      this.loading = true;
+      let result = await getList({ params });
+      let { pageindex, pagesize, total, list } = result;
+      this.tableMetas.pageInfo = { total, pageindex, pagesize };
+      this.tableMetas.tableData = list;
+      this.loading = false;
     }
   },
   components: { tableCom },

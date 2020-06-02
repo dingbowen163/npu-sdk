@@ -65,7 +65,6 @@ export default {
       };
       let result = await getList({ params });
       this.list = result;
-      console.log(this.list);
     }
   },
   components: {},

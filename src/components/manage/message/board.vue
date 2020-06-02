@@ -13,8 +13,8 @@
             class="reply-textarea fast-textarea"
             type="textarea"
             placeholder="快速提问..."
-            v-model="replyContent"
-            maxlength="30"
+            v-model="questionContent"
+            maxlength="500"
             show-word-limit
           ></el-input>
 
@@ -23,10 +23,11 @@
             class="submit-btn"
             icon="el-icon-s-promotion"
             :underline="false"
+            @click="addQuestion"
           >提交</el-link>
-          <el-link type="info" class="submit-btn" :underline="false">取消</el-link>
+          <el-link type="info" class="submit-btn" :underline="false" @click="clearContent">取消</el-link>
         </div>
-        <div class="message-item" v-for="item in 1" :key="item">
+        <div class="message-item" v-for="(item,index) in list" :key="index">
           <div class="question">
             <div class="left-img">
               <i class="el-icon-chat-dot-round"></i>
@@ -34,14 +35,14 @@
             <div class="fr right-con">
               <div class="message-title">
                 <div class="fl username">
-                  用户{{item}}
+                  用户{{item.user_name}}
                   <span class="text">发表提问：</span>
                 </div>
                 <div class="fr">
-                  <span class="publish-date">2020-5-10 23:34:21</span>
+                  <span class="publish-date">{{item.inquiry_date}}</span>
                 </div>
               </div>
-              <div class="question-content">记得放个假哦而无需 v 分？</div>
+              <div class="question-content">{{item.content}}</div>
 
               <el-link
                 class="reply-btn hang-btn"
@@ -102,20 +103,61 @@
 </template>
 
 <script>
-import { getList } from "@/service/messages";
+import { getList, addQuestion } from "@/service/messages";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      questionContent: "",
+      loading: false,
+      list: [],
       replyContent: "",
       showReply: false
     };
   },
+  computed: {
+    ...mapState("user", ["user_id", "name"])
+  },
+  watch: {
+    user_id: {
+      handler: function(val) {
+        if (val) {
+          this.getList();
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
+    async addQuestion() {
+      let data = {
+        user_id: this.user_id,
+        user_name: this.name,
+        content: this.questionContent
+      };
+      let result = await addQuestion({ data });
+      this.$message.success("提问发表成功！");
+      this.clearContent();
+    },
+    clearContent() {
+      this.questionContent = "";
+    },
     openReplyInp() {
       this.showReply = true;
     },
     hideReplyInp() {
       this.showReply = false;
+    },
+    async getList() {
+      let params = {
+        userid: this.user_id,
+        pageIndex: 1
+      };
+      this.loading = true;
+      let result = await getList({ params });
+      this.loading = false;
+      this.list = result.list;
     }
   },
   components: {},
