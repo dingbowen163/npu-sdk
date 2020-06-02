@@ -9,8 +9,7 @@
     <div class="card">
       <el-form ref="form" class="form" label-width="100px" :model="form" :rules="formRules">
         <el-form-item label="登录名">
-          {{form.user_id}}
-          <!-- <el-input v-model="form.user_id" disabled></el-input> -->
+          <span>{{form.user_id}}</span>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name"></el-input>
@@ -44,8 +43,9 @@
 </template>
 
 <script>
-import { getSelfInfo } from "@/service/home";
+import { getSelfInfo, editPersionalInfo, checkemail } from "@/service/home";
 import mixin from "@/assets/js/verifyCodeMixin";
+import { mapActions, mapState } from "vuex";
 export default {
   mixins: [mixin],
   data() {
@@ -67,11 +67,12 @@ export default {
         return callback(new Error("请输入正确的邮箱"));
       } else {
         let params = { email: value };
-        let result = await checkemail({ params });
+        value !== this.originalData.email && (await checkemail({ params }));
         return callback();
       }
     };
     return {
+      originalData: {},
       form: {
         user_id: "",
         name: "",
@@ -96,16 +97,41 @@ export default {
     };
   },
   methods: {
-    submitForm() {},
+    ...mapActions("user", ["getUserData"]),
+    async getSelfInfo() {
+      let params = {
+        userid: localStorage.getItem("user_id")
+      };
+      let result = await getSelfInfo({ params });
+      this.originalData = this._.cloneDeep(result);
+      this.form = { ...result, check_code: "" };
+    },
+    submitForm() {
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          const data = this.form;
+          data.check_id = this.codeInfo.check_id;
+          let result = await editPersionalInfo({ data });
+          if (result.msg === "ok") {
+            this.$message.success("个人信息修改成功");
+            this.getSelfInfo();
+            this.getUserData();
+          }
+          this.getVerifyCode();
+        }
+      });
+    },
     getCode() {}
   },
   components: {},
-  mounted() {}
+  mounted() {
+    this.getSelfInfo();
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.card{
+.card {
   min-width: 600px;
 }
 .form {

@@ -63,3 +63,11 @@ export async function logout (extra) {
   }, extra))
   return result
 }
+
+export async function editPersionalInfo (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'post',
+    url: '/api/user/edit'
+  }, extra, {withMsg: true}))
+  return result
+}
