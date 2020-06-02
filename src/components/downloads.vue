@@ -1,18 +1,15 @@
 <template>
   <div class="view downloads">
-    <el-card class="box-card" v-for="item in 7" :key="item">
+    <el-card class="box-card" v-for="(item,index) in list" :key="index">
       <div slot="header" class="clearfix">
-        <h3 class="header-title">通用人脸识别</h3>
+        <h3 class="header-title">{{item.name}}</h3>
         <ul class="header-info">
-          <li class="info-item">版本号：v1.0.0</li>
-          <li class="info-item">发布日期：2020.06.06</li>
+          <li class="info-item">版本号：v{{item.ver}}</li>
+          <li class="info-item">发布日期：{{item.release_date}}</li>
         </ul>
       </div>
       <div class="info-body">
-        <p class="describe">
-          采用了商用版最新的推理引擎 TenniS ，ResNet50 的推理速度，从 SeetaFace2 在 I7 的 8FPS 提升到了
-          20FPS 。同时人脸识别训练集也大幅度提高，SeetaFace6 人脸识别数据量增加到了上亿张图片
-        </p>
+        <p class="describe">{{item.Description}}</p>
 
         <ul class="info">
           <li class="info-item">
@@ -40,20 +37,41 @@
         </ul>
       </div>
       <div class="bottom clearfix">
-        <el-button class="download-btn" type="primary" icon="el-icon-download">下 载</el-button>
+        <el-button class="download-btn" type="primary" icon="el-icon-download" @click="download(item.url_download)">下 载</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
+import { getList } from "@/service/download";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      list: []
+    };
   },
-  methods: {},
+  computed: {
+    ...mapState("user", ["user_id"])
+  },
+  methods: {
+    download(url){
+      window.open(url, '_blank')
+    },
+    async getList() {
+      let params = {
+        userid: localStorage.getItem("user_id")
+      };
+      let result = await getList({ params });
+      this.list = result;
+      console.log(this.list);
+    }
+  },
   components: {},
-  mounted() {}
+  mounted() {
+    this.getList();
+  }
 };
 </script>
 
@@ -90,12 +108,12 @@ export default {
     margin-right: 5px;
   }
 }
-/deep/ .el-card__body{
+/deep/ .el-card__body {
   padding: 0;
 }
-.info-body{
+.info-body {
   padding: 20px;
-  background-image: url('../assets/img/downloadBg.png');
+  background-image: url("../assets/img/downloadBg.png");
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: 171px 180px;
@@ -112,6 +130,7 @@ export default {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 5px;
   .info-item {
+    min-width: 120px;
     span {
       display: block;
     }
@@ -135,8 +154,8 @@ export default {
     }
   }
 }
-.bottom{
+.bottom {
   padding: 5px 20px;
-  border-top: 1px solid #EBEEF5;
+  border-top: 1px solid #ebeef5;
 }
 </style>

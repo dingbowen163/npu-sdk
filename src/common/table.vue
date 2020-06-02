@@ -22,7 +22,6 @@
         :label="item.label"
         :width="item.width"
         class-name="sdk-table-column-cell"
-
         show-overflow-tooltip
       >
         <template slot-scope="scope">
@@ -46,7 +45,7 @@
                   <el-button type="text" @click="btn.visible = false">取消</el-button>
                   <el-button
                     type="primary"
-                    @click="handleClick({command: btn.command, row: scope.row, date})"
+                    @click="handleClick({command: btn.command, row: scope.row, date, btn})"
                   >确定</el-button>
                 </div>
                 <el-link slot="reference">{{btn.title}}</el-link>
@@ -58,6 +57,7 @@
                 v-show="btn.type !== 'changeDate'"
               >{{btn.title}}</el-link>
             </span>
+            <span v-if="!scope.row.menu.length">—</span>
           </div>
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>

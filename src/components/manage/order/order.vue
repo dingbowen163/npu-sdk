@@ -88,7 +88,7 @@ export default {
         headerData: [
           {
             label: "订单号",
-            value: "name",
+            value: "order_id",
             type: "TEXT"
           },
           {
@@ -98,17 +98,17 @@ export default {
           },
           {
             label: "订单日期",
-            value: "name",
+            value: "order_date",
             type: "TEXT"
           },
           {
             label: "授权码",
-            value: "name",
+            value: "key_code",
             type: "TEXT"
           },
           {
             label: "使用 / 总数",
-            value: "name",
+            value: "percent",
             type: "TEXT"
           },
           {
@@ -118,12 +118,12 @@ export default {
           },
           {
             label: "原过期时间",
-            value: "date",
+            value: "expired_date",
             type: "TEXT"
           },
           {
             label: "新过期时间",
-            value: "newDate",
+            value: "xpired_date_req",
             type: "TEXT"
           },
           {
@@ -141,7 +141,6 @@ export default {
             docs: '<a href="">下载</a>',
             statusStr: `<i class="statusDot status2"></i><span>过期</span>`,
             newDate: "2016-08-02",
-            showBtns: true,
             menu: [
               {
                 type: "changeDate",
@@ -150,12 +149,12 @@ export default {
                 visible: false
               },
               {
-                command: "pass",
+                command: "approve",
                 title: "通过",
                 buttonType: "success"
               },
               {
-                command: "refuse",
+                command: "reject",
                 title: "拒绝",
                 buttonType: "danger"
               }
@@ -200,14 +199,15 @@ export default {
   },
   methods: {
     handleSetting(data) {
-      let { command, row, date } = data;
+      let { command, row, date, btn } = data;
       console.log(command);
       if (command === "delayDate") {
-        this.handleDelayDate({ row, date });
+        this.handleDelayDate({ row, date,btn });
+      } else if (command === "approve") {
       }
     },
     // 确定延期
-    async handleDelayDate({ row, date }) {
+    async handleDelayDate({ row, date,btn }) {
       let { order_id, expired_date } = row;
       if (!date) {
         this.$message.error("请选择日期");
@@ -216,12 +216,12 @@ export default {
       let data = {
         order_id,
         expired_date,
-        expired_date_req: date,
+        expired_date_req: `${date} 00:00:00`,
         action: "apply"
       };
       let result = await setUserExpired({ data });
       this.$message.success("过期时间已延期");
-      row.visible = false;
+      btn.visible = false
     },
     handlePageChange(page) {
       this.filterInfo.pageindex = page;
@@ -235,7 +235,7 @@ export default {
       this.loading = true;
       this.role === 0 ? this.getUserList(params) : this.getCSList(params);
     },
-    
+
     async getUserList(params) {
       let result = await getUserList({ params });
       let { pageindex, pagesize, total, list } = result;
@@ -246,6 +246,7 @@ export default {
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
         item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+        item.menu = [];
         if (state !== 1) {
           item.menu = [
             {
@@ -263,13 +264,14 @@ export default {
     async getCSList(params) {
       let result = await getCSList({ params });
       let { pageindex, pagesize, total, list } = result;
-      this.tableMetas.pageInfo = { total, pageindex, pagesize };
+      this.csTableMetas.pageInfo = { total, pageindex, pagesize };
 
       list.forEach(item => {
-        let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
+        let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中 2-过期
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
         item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+        item.menu = [];
         if (state !== 1) {
           item.menu = [
             {
@@ -280,7 +282,7 @@ export default {
             }
           ];
         }
-        this.tableMetas.tableData = list;
+        this.csTableMetas.tableData = list;
         this.loading = false;
       });
     }
