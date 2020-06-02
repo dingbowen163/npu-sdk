@@ -71,3 +71,11 @@ export async function editPersionalInfo (extra) {
   }, extra, {withMsg: true}))
   return result
 }
+
+export async function editPwd (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'post',
+    url: '/api/user/password'
+  }, extra, {withMsg: true}))
+  return result
+}

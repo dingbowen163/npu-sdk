@@ -27,7 +27,7 @@
           <el-input v-model="form.position"></el-input>
         </el-form-item>
         <el-form-item label="验证码" class="code-item" prop="check_code">
-          <el-input placeholder="验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
+          <el-input placeholder="请输入图形中的验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
           <span class="code-img">
             <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
               <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />

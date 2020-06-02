@@ -34,7 +34,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item prop="check_code">
-            <el-input placeholder="验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
+            <el-input placeholder="请输入图形中的验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
             <span class="code-img">
               <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
                 <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />
@@ -91,8 +91,6 @@ export default {
     const validNewPwd = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("请填写新密码"));
-      } else if (value.length < 6) {
-        return callback(new Error("密码长度不能少于6个字符"));
       } else {
         if (this.form.repeat_password && value !== this.form.repeat_password) {
           return callback(new Error("两次密码不一致，请重新输入"));
@@ -104,9 +102,7 @@ export default {
     const validConfirmNewPwd = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("请再次填写新密码"));
-      } else if (value.length < 6) {
-        return callback(new Error("密码长度不能少于6个字符"));
-      } else {
+      }else {
         if (this.form.password && value !== this.form.password) {
           return callback(new Error("两次密码不一致，请重新输入"));
         } else {
