@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getUserList, setUserExpired } from "@/service/order";
+import { getUserList, setUserExpired, getCSList } from "@/service/order";
 import tableCom from "@/common/table";
 import { mapState } from "vuex";
 export default {
@@ -219,21 +219,25 @@ export default {
         expired_date_req: date,
         action: "apply"
       };
-      // let result = await setUserExpired({ data });
-      // this.$message.success("过期时间已延期");
+      let result = await setUserExpired({ data });
+      this.$message.success("过期时间已延期");
       row.visible = false;
     },
     handlePageChange(page) {
       this.filterInfo.pageindex = page;
     },
-    async getList() {
+
+    getList() {
       let params = {
         userid: this.user_id,
         pageIndex: this.filterInfo.pageindex
       };
       this.loading = true;
+      this.role === 0 ? this.getUserList(params) : this.getCSList(params);
+    },
+    
+    async getUserList(params) {
       let result = await getUserList({ params });
-
       let { pageindex, pagesize, total, list } = result;
       this.tableMetas.pageInfo = { total, pageindex, pagesize };
 
@@ -252,9 +256,31 @@ export default {
             }
           ];
         }
-
         this.tableMetas.tableData = list;
+        this.loading = false;
+      });
+    },
+    async getCSList(params) {
+      let result = await getCSList({ params });
+      let { pageindex, pagesize, total, list } = result;
+      this.tableMetas.pageInfo = { total, pageindex, pagesize };
 
+      list.forEach(item => {
+        let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中
+        item.percent = `${dev_used} / ${dev_total}`;
+        item.docs = `<a href="${url_keydat}">下载</a>`;
+        item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+        if (state !== 1) {
+          item.menu = [
+            {
+              type: "changeDate",
+              command: "delayDate",
+              title: "延期",
+              visible: false
+            }
+          ];
+        }
+        this.tableMetas.tableData = list;
         this.loading = false;
       });
     }
