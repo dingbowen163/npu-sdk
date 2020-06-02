@@ -1,52 +1,55 @@
 <template>
   <div class="view register">
     <div class="content">
-      <el-card shadow="hover" :body-style="{ padding: '30px' }">
-        <h3 class="form-title">注册</h3>
-        <el-form class="form" ref="form" :model="form" :rules="formRules">
-          <el-form-item prop="user_id">
-            <el-input placeholder="登录名" maxlength="40" v-model="form.user_id"></el-input>
-          </el-form-item>
-          <el-form-item prop="name">
-            <el-input placeholder="姓名" maxlength="40" v-model="form.name"></el-input>
-          </el-form-item>
-          <el-form-item prop="mobile">
-            <el-input placeholder="手机号" maxlength="11" v-model="form.mobile"></el-input>
-          </el-form-item>
-          <el-form-item prop="email">
-            <el-input placeholder="电子邮箱" maxlength="256" v-model="form.email"></el-input>
-          </el-form-item>
-          <el-form-item prop="company">
-            <el-input placeholder="公司" maxlength="256" v-model="form.company"></el-input>
-          </el-form-item>
-          <el-form-item prop="position">
-            <el-input placeholder="职位" maxlength="256" v-model="form.position"></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input placeholder="登录密码" type="password" maxlength="20" v-model="form.password"></el-input>
-          </el-form-item>
-          <el-form-item prop="repeat_password">
-            <el-input
-              placeholder="重复密码"
-              type="password"
-              maxlength="20"
-              v-model="form.repeat_password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="check_code">
-            <el-input placeholder="请输入图形中的验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
-            <span class="code-img">
+      <Left></Left>
+      <div class="content-right">
+        <el-card shadow="hover" :body-style="{ padding: '30px' }">
+          <h3 class="form-title">注册</h3>
+          <el-form class="form" ref="form" :model="form" :rules="formRules">
+            <el-form-item prop="user_id">
+              <el-input placeholder="登录名" maxlength="40" v-model="form.user_id"></el-input>
+            </el-form-item>
+            <el-form-item prop="name">
+              <el-input placeholder="姓名" maxlength="40" v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item prop="mobile">
+              <el-input placeholder="手机号" maxlength="11" v-model="form.mobile"></el-input>
+            </el-form-item>
+            <el-form-item prop="email">
+              <el-input placeholder="电子邮箱" maxlength="256" v-model="form.email"></el-input>
+            </el-form-item>
+            <el-form-item prop="company">
+              <el-input placeholder="公司" maxlength="256" v-model="form.company"></el-input>
+            </el-form-item>
+            <el-form-item prop="position">
+              <el-input placeholder="职位" maxlength="256" v-model="form.position"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input placeholder="登录密码" type="password" maxlength="20" v-model="form.password"></el-input>
+            </el-form-item>
+            <el-form-item prop="repeat_password">
+              <el-input
+                placeholder="重复密码"
+                type="password"
+                maxlength="20"
+                v-model="form.repeat_password"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="check_code">
+              <el-input placeholder="请输入图形中的验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
+              <span class="code-img">
               <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
                 <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />
               </el-tooltip>
             </span>
-          </el-form-item>
-          <el-form-item class="btns">
-            <el-button class="submit" type="primary" @click="submitForm">注册</el-button>
-            <el-button @click="back">返回</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
+            </el-form-item>
+            <el-form-item class="btns">
+              <el-button class="submit" type="primary" @click="submitForm">注册</el-button>
+              <el-button @click="back">返回</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +57,7 @@
 <script>
 import { checkemail, checkid, checkCode, register } from "@/service/home";
 import mixin from "@/assets/js/verifyCodeMixin";
+import Left from "@/common/left"
 export default {
   mixins: [mixin],
   data() {
@@ -157,7 +161,7 @@ export default {
     },
     getCode() {}
   },
-  components: {},
+  components: {Left},
   mounted() {}
 };
 </script>
