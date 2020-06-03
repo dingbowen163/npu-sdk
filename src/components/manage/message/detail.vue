@@ -19,14 +19,14 @@
             <div class="fr right-con">
               <div class="message-title">
                 <div class="fl username">
-                  用户1
+                  {{user_name}}
                   <span class="text">发表提问：</span>
                 </div>
                 <div class="fr">
-                  <span class="publish-date">2020-5-10 23:34:21</span>
+                  <span class="publish-date">{{inquiry_date}}</span>
                 </div>
               </div>
-              <div class="question-content">记得放个假哦而无需 v 分？</div>
+              <pre class="question-content">{{content}}</pre>
 
               <el-link
                 class="reply-btn hang-btn"
@@ -46,7 +46,7 @@
               >回复{{detailList.length ? `(${detailList.length})` : ''}}</el-link>
             </div>
           </div>
-          <div class="reply-box">
+          <div class="reply-box" v-if="detailList.length || showReply">
             <el-collapse-transition>
               <div class="reply-inp-box" v-if="showReply">
                 <el-input
@@ -70,14 +70,14 @@
               <li class="reply-con" v-for="(item,index) in detailList" :key="index">
                 <div class="message-title">
                   <div class="fl username">
-                    客服（{{item.user_name}}）
+                    {{item.user_name}}
                     <span class="text">回复：</span>
                   </div>
                   <div class="fr">
                     <span class="publish-date repay-date">{{item.inquiry_resp_date}}</span>
                   </div>
                 </div>
-                <div class="question-content">{{item.content}}</div>
+                <pre class="question-content" v-html="item.content"></pre>
               </li>
             </ul>
           </div>
@@ -96,6 +96,9 @@ export default {
       replyContent: "",
       showReply: false,
       inquiry_id: this.$route.params.inquiry_id,
+      content: this.$route.params.content,
+      inquiry_date: this.$route.params.inquiry_date,
+      user_name: this.$route.params.user_name,
       detailList: []
     };
   },

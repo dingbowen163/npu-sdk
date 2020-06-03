@@ -35,20 +35,20 @@
             <div class="fr right-con">
               <div class="message-title">
                 <div class="fl username">
-                  用户{{item.user_name}}
+                  {{item.user_name}}
                   <span class="text">发表提问：</span>
                 </div>
                 <div class="fr">
                   <span class="publish-date">{{item.inquiry_date}}</span>
                 </div>
               </div>
-              <div class="question-content">{{item.content}}</div>
+              <pre class="question-content">{{item.content}}</pre>
 
               <el-link
                 class="reply-btn hang-btn"
                 :underline="false"
-                @click="hideReplyInp"
-                v-if="showReply"
+                @click="hideReplyInp(item, index)"
+                v-if="item.showReply"
               >
                 收起
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -58,19 +58,20 @@
                 class="reply-btn"
                 icon="el-icon-edit"
                 :underline="false"
-                @click="openReplyInp"
-              >回复(2)</el-link>
+                @click="openReplyInp(item,index)"
+              >回复{{item.list.length ? `(${item.list.length})` : ''}}</el-link>
             </div>
           </div>
-          <div class="reply-box">
+          <div class="reply-box" v-if="item.list.length || item.showReply">
             <el-collapse-transition>
-              <div class="reply-inp-box" v-if="showReply">
+              <div class="reply-inp-box" v-if="item.showReply">
                 <el-input
                   class="reply-textarea"
                   type="textarea"
                   placeholder="请输入回复内容"
-                  v-model="replyContent"
-                  maxlength="30"
+                  v-model="item.replyContent"
+                  @input="changeReply($event)"
+                  maxlength="500"
                   show-word-limit
                 ></el-input>
                 <el-link
@@ -78,21 +79,22 @@
                   class="submit-btn"
                   icon="el-icon-s-promotion"
                   :underline="false"
+                  @click="confirmReply(item)"
                 >提交</el-link>
               </div>
             </el-collapse-transition>
-            <ul class="reply-list">
-              <li class="reply-con" v-for="item in 2" :key="item">
+            <ul class="reply-list" v-if="item.list.length">
+              <li class="reply-con" v-for="(reply, i) in item.list" :key="i">
                 <div class="message-title">
                   <div class="fl username">
-                    客服{{item}}
+                    {{reply.user_name}}
                     <span class="text">回复：</span>
                   </div>
                   <div class="fr">
-                    <span class="publish-date repay-date">2020-5-10 23:34:21</span>
+                    <span class="publish-date repay-date">{{reply.inquiry_resp_date}}</span>
                   </div>
                 </div>
-                <div class="question-content">记得放个假哦而无需 v 分？</div>
+                <pre class="question-content">{{reply.content}}</pre>
               </li>
             </ul>
           </div>
@@ -103,16 +105,13 @@
 </template>
 
 <script>
-import { getList, addQuestion } from "@/service/messages";
+import { getList, addQuestion, addReply } from "@/service/messages";
 import { mapState } from "vuex";
 export default {
   data() {
     return {
       questionContent: "",
-      loading: false,
-      list: [],
-      replyContent: "",
-      showReply: false
+      list: []
     };
   },
   computed: {
@@ -139,25 +138,45 @@ export default {
       let result = await addQuestion({ data });
       this.$message.success("提问发表成功！");
       this.clearContent();
+      this.getList();
     },
     clearContent() {
       this.questionContent = "";
     },
-    openReplyInp() {
-      this.showReply = true;
+    openReplyInp(item, index) {
+      item.showReply = true;
+      item.replyContent = "";
+      this.$set(this.list, index, item);
     },
-    hideReplyInp() {
-      this.showReply = false;
+    hideReplyInp(item, index) {
+      item.showReply = false;
+      this.$set(this.list, index, item);
+    },
+    changeReply(e) {
+      this.$forceUpdate();
+    },
+    async confirmReply(item) {
+      let data = {
+        inquiry_id: item.inquiry_id,
+        user_id: this.user_id,
+        user_name: this.name,
+        content: item.replyContent
+      };
+      let result = await addReply({ data });
+      this.$message.success("评论提交成功");
+      this.getList();
     },
     async getList() {
       let params = {
         userid: this.user_id,
         pageIndex: 1
       };
-      this.loading = true;
       let result = await getList({ params });
-      this.loading = false;
-      this.list = result.list;
+      this.list = this._.cloneDeep(result.list);
+      this.list.forEach(item => {
+        item.replyContent = "";
+        item.showReply = false;
+      });
     }
   },
   components: {},
@@ -166,5 +185,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/styles/message.scss";
+@import "@/assets/styles/message.scss";
 </style>
