@@ -3,7 +3,7 @@
     <div class="content">
       <Left></Left>
       <div class="content-right">
-        <el-card shadow="hover" :body-style="{ padding: '30px' }">
+        <el-card shadow="hover">
           <h3 class="form-title">注册</h3>
           <el-form class="form" ref="form" :model="form" :rules="formRules">
             <el-form-item prop="user_id">

@@ -79,3 +79,11 @@ export async function editPwd (extra) {
   }, extra, {withMsg: true}))
   return result
 }
+
+export async function sendemail (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'get',
+    url: '/api/reset/sendemail'
+  }, extra))
+  return result
+}
