@@ -43,7 +43,7 @@
                 icon="el-icon-edit"
                 :underline="false"
                 @click="openReplyInp"
-              >回复{{(detailList.length) || ''}}</el-link>
+              >回复{{detailList.length ? `(${detailList.length})` : ''}}</el-link>
             </div>
           </div>
           <div class="reply-box">
@@ -54,7 +54,7 @@
                   type="textarea"
                   placeholder="请输入回复内容"
                   v-model="replyContent"
-                  maxlength="30"
+                  maxlength="500"
                   show-word-limit
                 ></el-input>
                 <el-link
@@ -62,6 +62,7 @@
                   class="submit-btn"
                   icon="el-icon-s-promotion"
                   :underline="false"
+                  @click="commitReply"
                 >提交</el-link>
               </div>
             </el-collapse-transition>
@@ -69,14 +70,14 @@
               <li class="reply-con" v-for="(item,index) in detailList" :key="index">
                 <div class="message-title">
                   <div class="fl username">
-                    客服{{item}}
+                    客服（{{item.user_name}}）
                     <span class="text">回复：</span>
                   </div>
                   <div class="fr">
-                    <span class="publish-date repay-date">2020-5-10 23:34:21</span>
+                    <span class="publish-date repay-date">{{item.inquiry_resp_date}}</span>
                   </div>
                 </div>
-                <div class="question-content">记得放个假哦而无需 v 分？</div>
+                <div class="question-content">{{item.content}}</div>
               </li>
             </ul>
           </div>
@@ -87,7 +88,8 @@
 </template>
 
 <script>
-import { getMessageDetail } from "@/service/messages";
+import { getMessageDetail, addReply } from "@/service/messages";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -97,6 +99,9 @@ export default {
       detailList: []
     };
   },
+  computed: {
+    ...mapState("user", ["user_id", "name"])
+  },
   methods: {
     openReplyInp() {
       this.showReply = true;
@@ -104,13 +109,21 @@ export default {
     hideReplyInp() {
       this.showReply = false;
     },
-    async getDetail(){
+    async commitReply() {
+      let data = {
+        inquire_id: Number(this.inquiry_id),
+        userid: this.user_id,
+        user_name: this.name,
+        content: this.replyContent
+      };
+      let result = await addReply({data});
+    },
+    async getDetail() {
       let params = {
         inquiry_id: this.inquiry_id
-      }
-      let result = await getMessageDetail({params});
+      };
+      let result = await getMessageDetail({ params });
       this.detailList = result;
-
     }
   },
   components: {},
@@ -121,7 +134,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/styles/message.scss";
+@import "@/assets/styles/message.scss";
 .bread-nav {
   .go-back {
     display: block;

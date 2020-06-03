@@ -23,3 +23,11 @@ export async function getMessageDetail (extra) {
   }, extra))
   return result
 }
+// 提交回复
+export async function addReply (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'post',
+    url: '/api/inquirys_resp/add'
+  }, extra))
+  return result
+}
