@@ -64,7 +64,7 @@ export default new Router({
               component: () => import("@/components/manage/message/list")
             },
             {
-              path: "/messageDetail/:id",
+              path: "/messageDetail/:inquiry_id",
               name: "messageDetail",
               meta: {
                 title: "留言板"

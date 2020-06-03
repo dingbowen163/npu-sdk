@@ -15,3 +15,11 @@ export async function addQuestion (extra) {
   }, extra))
   return result
 }
+
+export async function getMessageDetail (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'get',
+    url: '/api/inquirys_resp'
+  }, extra))
+  return result
+}

@@ -32,45 +32,26 @@ export default {
         headerData: [
           {
             label: "用户登录名",
-            value: "name",
+            value: "user_id",
             type: "TEXT"
           },
           {
             label: "主题内容摘要",
-            value: "docs",
+            value: "content",
             type: "link"
           },
           {
             label: "回复人",
-            value: "date",
+            value: "user_name",
             type: "TEXT"
           },
           {
             label: "最后回复时间",
-            value: "date",
+            value: "inquiry_date",
             type: "TEXT"
           }
         ],
-        tableData: [
-          {
-            date: "2016-05-01",
-            name: "王小",
-            docs: "主题内容摘要",
-            id: 1
-          },
-          {
-            date: "2016-05-02",
-            name: "王",
-            docs: "123",
-            id: 2
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎",
-            docs: "3231",
-            id: 3
-          }
-        ],
+        tableData: [],
         pageInfo: {}
       }
     };
@@ -93,7 +74,7 @@ export default {
     handleSetting(data) {
       let { command, row } = data;
       if (command === "gotoLink") {
-        this.$router.push(`/messageDetail/${row.id}`);
+        this.$router.push(`/messageDetail/${row.inquiry_id}`);
       }
     },
     handlePageChange(page) {
@@ -109,6 +90,7 @@ export default {
       let { pageindex, pagesize, total, list } = result;
       this.tableMetas.pageInfo = { total, pageindex, pagesize };
       this.tableMetas.tableData = list;
+
       this.loading = false;
     }
   },

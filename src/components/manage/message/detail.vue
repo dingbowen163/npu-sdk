@@ -43,7 +43,7 @@
                 icon="el-icon-edit"
                 :underline="false"
                 @click="openReplyInp"
-              >回复(2)</el-link>
+              >回复{{(detailList.length) || ''}}</el-link>
             </div>
           </div>
           <div class="reply-box">
@@ -66,7 +66,7 @@
               </div>
             </el-collapse-transition>
             <ul class="reply-list">
-              <li class="reply-con" v-for="item in 8" :key="item">
+              <li class="reply-con" v-for="(item,index) in detailList" :key="index">
                 <div class="message-title">
                   <div class="fl username">
                     客服{{item}}
@@ -87,11 +87,14 @@
 </template>
 
 <script>
+import { getMessageDetail } from "@/service/messages";
 export default {
   data() {
     return {
       replyContent: "",
-      showReply: false
+      showReply: false,
+      inquiry_id: this.$route.params.inquiry_id,
+      detailList: []
     };
   },
   methods: {
@@ -100,10 +103,20 @@ export default {
     },
     hideReplyInp() {
       this.showReply = false;
+    },
+    async getDetail(){
+      let params = {
+        inquiry_id: this.inquiry_id
+      }
+      let result = await getMessageDetail({params});
+      this.detailList = result;
+
     }
   },
   components: {},
-  mounted() {}
+  mounted() {
+    this.getDetail();
+  }
 };
 </script>
 
