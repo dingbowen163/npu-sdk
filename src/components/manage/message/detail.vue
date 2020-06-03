@@ -111,12 +111,15 @@ export default {
     },
     async commitReply() {
       let data = {
-        inquire_id: Number(this.inquiry_id),
-        userid: this.user_id,
+        inquiry_id: Number(this.inquiry_id),
+        user_id: this.user_id,
         user_name: this.name,
         content: this.replyContent
       };
       let result = await addReply({ data });
+      this.$message.success('评论提交成功');
+      this.replyContent = '';
+      this.getDetail();
     },
     async getDetail() {
       let params = {
