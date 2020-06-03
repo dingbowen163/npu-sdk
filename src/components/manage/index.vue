@@ -5,7 +5,11 @@
         <i class="el-icon-s-order"></i>
         <span slot="title">订单管理</span>
       </el-menu-item>
-      <el-menu-item :index="messagePath">
+      <el-menu-item index="/messageBoard" v-if="role === 0">
+        <i class="el-icon-s-comment"></i>
+        <span slot="title">留言板</span>
+      </el-menu-item>
+      <el-menu-item index="/messageList" v-if="role === 1">
         <i class="el-icon-s-comment"></i>
         <span slot="title">留言板</span>
       </el-menu-item>
@@ -34,9 +38,6 @@ export default {
     };
   },
   computed: {
-    messagePath() {
-      return this.role === 0 ? "/messageBoard" : "/messageList";
-    },
     ...mapState("user", ["user_id", "name", "role"])
   },
   watch: {

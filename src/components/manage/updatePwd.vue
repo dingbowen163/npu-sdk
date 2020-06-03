@@ -31,7 +31,7 @@
           </span>
         </el-form-item>
         <el-form-item class="submit">
-          <el-button type="primary" @click="submitForm">修 改</el-button>
+          <el-button type="primary" @click="submitForm">确 认 修 改</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -119,6 +119,7 @@ export default {
   margin-bottom: 0;
   /deep/ .el-button {
     float: right;
+    padding: 12px 140px;
   }
 }
 .form {

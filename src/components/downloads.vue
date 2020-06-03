@@ -34,10 +34,15 @@
             <span class="title">特征长度</span>
             <span class="text">1024</span>
           </li>
-        </ul> -->
+        </ul>-->
       </div>
       <div class="bottom clearfix">
-        <el-button class="download-btn" type="primary" icon="el-icon-download" @click="download(item.url_download)">下 载</el-button>
+        <el-button
+          class="download-btn"
+          type="primary"
+          icon="el-icon-download"
+          @click="download(item.url_download)"
+        >下 载</el-button>
       </div>
     </el-card>
   </div>
@@ -56,8 +61,8 @@ export default {
     ...mapState("user", ["user_id"])
   },
   methods: {
-    download(url){
-      window.open(url, '_blank')
+    download(url) {
+      window.open(url, "_blank");
     },
     async getList() {
       let params = {
@@ -91,6 +96,9 @@ export default {
 }
 .download-btn {
   float: right;
+  /deep/ & > i {
+    font-weight: 700;
+  }
 }
 .header-title {
   float: left;

@@ -261,6 +261,7 @@ export default {
     },
     handlePageChange(page) {
       this.filterInfo.pageindex = page;
+      this.getList();
     },
 
     getList() {
@@ -289,6 +290,8 @@ export default {
               type: "changeDate",
               command: "delayDate",
               title: "延期",
+              btnTitle: "延期过期时间",
+              placeholder: "请选择过期时间",
               visible: false
             }
           ];
@@ -322,6 +325,8 @@ export default {
             type: "changeDate",
             command: "delayDate",
             title: "修改",
+            btnTitle: "修改新过期时间",
+            placeholder: "请选择新过期时间",
             visible: false
           }
         ];
@@ -336,9 +341,7 @@ export default {
   components: {
     tableCom
   },
-  mounted() {
-    // this.getList();
-  }
+  mounted() {}
 };
 </script>
 

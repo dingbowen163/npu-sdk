@@ -5,7 +5,7 @@
       <div class="content-right">
         <el-card shadow="hover" :body-style="{ padding: '30px' }" v-if="!showResetPwd">
           <h3 class="form-title">
-            <span class="hello">Hello！</span>
+            <span class="hello">Hello! </span>
             欢迎登录
           </h3>
           <el-form class="form" ref="form" :model="form" :rules="formRules">

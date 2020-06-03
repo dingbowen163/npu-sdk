@@ -40,7 +40,7 @@
                 v-model="btn.visible"
                 v-show="btn.type === 'changeDate'"
               >
-                <el-date-picker v-model="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>
+                <el-date-picker v-model="date" :placeholder="btn.placeholder" value-format="yyyy-MM-dd"></el-date-picker>
                 <div class="popoverBtns">
                   <el-button type="text" @click="btn.visible = false">取消</el-button>
                   <el-button
@@ -48,7 +48,7 @@
                     @click="handleClick({command: btn.command, row: scope.row, date, btn})"
                   >确定</el-button>
                 </div>
-                <el-link slot="reference">{{btn.title}}</el-link>
+                <el-link slot="reference" :title="btn.btnTitle">{{btn.title}}</el-link>
               </el-popover>
 
               <el-link
@@ -62,18 +62,6 @@
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column
-        label="操作"
-        prop="set"
-        fixed="right"
-        header-align="center"
-        align="center"
-        label-class-name="sdk-table-header-label sdk-table-setting-header"
-      >
-        <template slot-scope="scope">
-         
-        </template>
-      </el-table-column>-->
     </el-table>
     <el-pagination
       class="setting-pagination-panel"
@@ -100,8 +88,8 @@ export default {
   },
   data() {
     return {
-      tableData: [],
-      headerData: [],
+      tableData: this.metas.tableData,
+      headerData: this.metas.headerData,
       pageInfo: this.metas.pageInfo,
       date: "",
 
@@ -119,17 +107,12 @@ export default {
       this.$emit("currentChange", page);
     },
     linkClick(btn) {
-      console.log(btn);
       btn.visible = true;
       this.$set(btn, "visible", true);
     }
   },
   components: {},
   mounted() {
-    this.tableData = cloneDeep(this.metas.tableData);
-    this.headerData = cloneDeep(this.metas.headerData);
-    console.log(this.metas.tableData);
-    console.log(this.tableData);
   }
 };
 </script>

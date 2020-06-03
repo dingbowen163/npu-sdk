@@ -114,26 +114,30 @@ export default {
 
 .logout {
   .el-dropdown-link {
-    height: 43px;
+    height: 35px;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 15px;
     cursor: pointer;
   }
   .el-avatar {
     float: left;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
   }
   .username {
     margin-left: 10px;
     margin-right: 5px;
     float: left;
-    line-height: 43px;
+    line-height: 35px;
     &:hover {
       color: #409eff;
     }
   }
   .el-icon--right {
     float: left;
-    line-height: 43px;
+    line-height: 35px;
     margin-right: 15px;
   }
 }

@@ -78,7 +78,8 @@ export default {
       }
     },
     handlePageChange(page) {
-      this.filterInfo.pageNum = page;
+      this.filterInfo.pageIndex = page;
+      this.getList();
     },
     async getList() {
       let params = {
