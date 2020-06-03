@@ -116,7 +116,7 @@ export default {
         user_name: this.name,
         content: this.replyContent
       };
-      let result = await addReply({data});
+      let result = await addReply({ data });
     },
     async getDetail() {
       let params = {

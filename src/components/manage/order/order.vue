@@ -93,7 +93,7 @@ export default {
           },
           {
             label: "登录名",
-            value: "name",
+            value: "user_id",
             type: "TEXT"
           },
           {
