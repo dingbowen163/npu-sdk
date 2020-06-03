@@ -1,7 +1,7 @@
 <template>
   <div class="view register">
     <div class="content">
-      <!-- <Left></Left> -->
+      <Left></Left>
       <div class="content-right">
         <el-card shadow="hover" :body-style="{ padding: '30px' }">
           <h3 class="form-title">注册</h3>

@@ -2,7 +2,7 @@
   <div class="home">
     <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
       <el-menu-item class="logo-menu" index>
-         <!-- <img src="@/assets/img/logo.png" alt class="logo" /> -->
+         <img src="@/assets/img/logo.png" alt class="logo" />
       </el-menu-item>
       <el-menu-item index="/documents">文档</el-menu-item>
       <el-menu-item index="/downloads">下载</el-menu-item>
