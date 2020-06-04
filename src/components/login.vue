@@ -1,7 +1,7 @@
 <template>
   <div class="view login">
     <div class="content">
-      <Left></Left>
+      <!-- <Left></Left> -->
       <div class="content-right">
         <el-card shadow="hover" :body-style="{ padding: '30px' }" v-if="!showResetPwd">
           <h3 class="form-title">

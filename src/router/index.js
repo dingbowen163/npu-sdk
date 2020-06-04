@@ -31,6 +31,14 @@ export default new Router({
           component: () => import("@/components/register")
         },
         {
+          path: "/resetPwd",
+          name: "resetPwd",
+          meta: {
+            title: "注册"
+          },
+          component: () => import("@/components/resetPwd")
+        },
+        {
           path: "/downloads",
           name: "downloads",
           meta: {

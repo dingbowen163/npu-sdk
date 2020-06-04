@@ -87,3 +87,11 @@ export async function sendemail (extra) {
   }, extra))
   return result
 }
+
+export async function resetpassword (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'get',
+    url: '/api/reset/resetpassword'
+  }, extra))
+  return result
+}
