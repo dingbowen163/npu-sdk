@@ -1,7 +1,7 @@
 <template>
   <div class="view resetPwd">
     <div class="content">
-      <!-- <Left></Left> -->
+      <Left></Left>
       <div class="content-right">
         <el-card shadow="hover">
           <h3 class="form-title">重置密码</h3>
