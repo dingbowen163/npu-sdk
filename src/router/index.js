@@ -23,6 +23,14 @@ export default new Router({
           component: () => import("@/components/login")
         },
         {
+          path: "/sendEmail",
+          name: "sendEmail",
+          meta: {
+            title: "发送重置密码邮件"
+          },
+          component: () => import("@/components/sendEmail")
+        },
+        {
           path: "/register",
           name: "register",
           meta: {
@@ -34,7 +42,7 @@ export default new Router({
           path: "/resetPwd",
           name: "resetPwd",
           meta: {
-            title: "注册"
+            title: "重置密码"
           },
           component: () => import("@/components/resetPwd")
         },

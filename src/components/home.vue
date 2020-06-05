@@ -2,7 +2,7 @@
   <div class="home">
     <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
       <el-menu-item class="logo-menu" index>
-         <img src="@/assets/img/logo.png" alt class="logo" />
+        <img src="@/assets/img/logo.png" alt class="logo" />
       </el-menu-item>
       <el-menu-item index="/documents">文档</el-menu-item>
       <el-menu-item index="/downloads">下载</el-menu-item>
@@ -47,7 +47,14 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      this.$router.push(key);
+      if (key === this.activeIndex) {
+        return;
+      }
+      if (key === "/documents") {
+        window.open("https://seetadocs.readthedocs.io/en/latest/", "_blank");
+      } else {
+        this.$router.push(key);
+      }
     },
     handleCommand(command) {
       if (command === "logout") {
@@ -72,9 +79,7 @@ export default {
     }
   },
   components: {},
-  mounted() {
-    this.getUserData();
-  }
+  mounted() {}
 };
 </script>
 

@@ -61,19 +61,18 @@ export default {
     ...mapState("user", ["user_id"])
   },
   methods: {
+    ...mapActions("user", ["getUserData"]),
     download(url) {
       window.open(url, "_blank");
     },
     async getList() {
-      let params = {
-        userid: localStorage.getItem("user_id")
-      };
-      let result = await getList({ params });
+      let result = await getList();
       this.list = result;
     }
   },
   components: {},
   mounted() {
+    this.getUserData();
     this.getList();
   }
 };

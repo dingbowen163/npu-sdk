@@ -42,10 +42,11 @@
 
 <script>
 import { resetpassword } from "@/service/home";
-import mixin from "@/assets/js/verifyCodeMixin";
+import verifyCodeMixin from "@/assets/js/verifyCodeMixin";
+import enterMixin from "@/assets/js/enterMixin";
 import Left from "@/common/left";
 export default {
-  mixins: [mixin],
+  mixins: [verifyCodeMixin, enterMixin],
   data() {
     const validNewPwd = (rule, value, callback) => {
       if (!value) {

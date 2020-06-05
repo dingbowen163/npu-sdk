@@ -36,12 +36,17 @@
               ></el-input>
             </el-form-item>
             <el-form-item prop="check_code">
-              <el-input placeholder="请输入图形中的验证码" class="code-inp" maxlength="5" v-model="form.check_code"></el-input>
+              <el-input
+                placeholder="请输入图形中的验证码"
+                class="code-inp"
+                maxlength="5"
+                v-model="form.check_code"
+              ></el-input>
               <span class="code-img">
-              <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
-                <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />
-              </el-tooltip>
-            </span>
+                <el-tooltip effect="dark" content="点击刷新验证码" placement="right">
+                  <img :src="codeInfo.check_image" @click="getVerifyCode" alt="验证码" />
+                </el-tooltip>
+              </span>
             </el-form-item>
             <el-form-item class="btns">
               <el-button class="submit" type="primary" @click="submitForm">注册</el-button>
@@ -56,10 +61,11 @@
 
 <script>
 import { checkemail, checkid, checkCode, register } from "@/service/home";
-import mixin from "@/assets/js/verifyCodeMixin";
-import Left from "@/common/left"
+import verifyCodeMixin from "@/assets/js/verifyCodeMixin";
+import enterMixin from "@/assets/js/enterMixin";
+import Left from "@/common/left";
 export default {
-  mixins: [mixin],
+  mixins: [verifyCodeMixin, enterMixin],
   data() {
     const validId = async (rule, value, callback) => {
       if (!value) {
@@ -106,7 +112,7 @@ export default {
     const validConfirmNewPwd = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("请再次填写新密码"));
-      }else {
+      } else {
         if (this.form.password && value !== this.form.password) {
           return callback(new Error("两次密码不一致，请重新输入"));
         } else {
@@ -139,7 +145,9 @@ export default {
         repeat_password: [
           { required: true, validator: validConfirmNewPwd, trigger: "blur" }
         ],
-        check_code: [{ required: true, message: "请填写验证码", trigger: "blur" }]
+        check_code: [
+          { required: true, message: "请填写验证码", trigger: "blur" }
+        ]
       }
     };
   },
@@ -151,7 +159,7 @@ export default {
           data.check_id = this.codeInfo.check_id;
           delete data.repeat_password;
           let result = await register({ data });
-          this.$message.success('账号注册成功')
+          this.$message.success("账号注册成功");
           this.back();
         }
       });
@@ -161,7 +169,7 @@ export default {
     },
     getCode() {}
   },
-  components: {Left},
+  components: { Left },
   mounted() {}
 };
 </script>
