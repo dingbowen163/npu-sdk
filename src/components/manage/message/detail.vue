@@ -77,7 +77,7 @@
                     <span class="publish-date repay-date">{{item.inquiry_resp_date}}</span>
                   </div>
                 </div>
-                <pre class="question-content" v-html="item.content"></pre>
+                <pre class="question-content">{{item.content}}</pre>
               </li>
             </ul>
           </div>
@@ -96,7 +96,7 @@ export default {
       replyContent: "",
       showReply: false,
       inquiry_id: this.$route.params.inquiry_id,
-      content: this.$route.params.content,
+      content: decodeURIComponent(this.$route.params.content),
       inquiry_date: this.$route.params.inquiry_date,
       user_name: this.$route.params.user_name,
       detailList: []

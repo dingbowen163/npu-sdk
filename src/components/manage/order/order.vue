@@ -139,52 +139,8 @@ export default {
             width: 130
           }
         ],
-        tableData: [
-          {
-            date: "2016-05-01",
-            name: "王小",
-            docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status2"></i><span>过期</span>`,
-            newDate: "2016-08-02",
-            menu: [
-              {
-                type: "changeDate",
-                command: "updateDate",
-                title: "修改",
-                visible: false
-              },
-              {
-                command: "approve",
-                title: "通过",
-                buttonType: "success"
-              },
-              {
-                command: "reject",
-                title: "拒绝",
-                buttonType: "danger"
-              }
-            ]
-          },
-          {
-            date: "2016-05-02",
-            name: "王",
-            docs: '<a href="">下载</a>',
-            statusStr: `<i class="statusDot status1"></i><span>申请</span>`,
-            menu: [
-              {
-                type: "changeDate",
-                command: "updateDate",
-                title: "修改",
-                visible: false
-              }
-            ]
-          }
-        ],
-        pageInfo: {
-          total: 20,
-          pageindex: 1,
-          pagesize: 10
-        }
+        tableData: [],
+        pageInfo: {}
       }
     };
   },
@@ -282,7 +238,7 @@ export default {
         let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中 2-过期
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
-        item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+        item.statusStr = `<span class="statusTag status${state}">${this.stateArr[state]}</span>`;
         item.menu = [];
         if (state !== 1) {
           item.menu = [
@@ -319,7 +275,7 @@ export default {
         let { dev_used, dev_total, state, url_keydat } = item; // state:订单状态，0:正常，1:申请中 2-过期
         item.percent = `${dev_used} / ${dev_total}`;
         item.docs = `<a href="${url_keydat}">下载</a>`;
-        item.statusStr = `<i class="statusDot status${state}"></i><span>${this.stateArr[state]}</span>`;
+        item.statusStr = `<span class="statusTag status${state}">${this.stateArr[state]}</span>`;
         item.menu = [
           {
             type: "changeDate",
@@ -330,7 +286,7 @@ export default {
             visible: false
           }
         ];
-        if (state !== 0) {
+        if (state === 1) {
           item.menu.push(approveItem, rejectItem);
         }
         this.csTableMetas.tableData = list;

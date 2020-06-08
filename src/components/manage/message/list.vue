@@ -42,12 +42,12 @@ export default {
           },
           {
             label: "回复人",
-            value: "user_name",
+            value: "reply_name",
             type: "TEXT"
           },
           {
             label: "最后回复时间",
-            value: "inquiry_date",
+            value: "reply_date",
             type: "TEXT"
           }
         ],
@@ -74,7 +74,7 @@ export default {
     handleSetting(data) {
       let { command, row } = data;
       if (command === "gotoLink") {
-        this.$router.push(`/messageDetail/${row.inquiry_id}/${row.content}/${row.user_name}/${row.inquiry_date}`);
+        this.$router.push(`/messageDetail/${row.inquiry_id}/${encodeURIComponent(row.content)}/${row.user_name}/${row.inquiry_date}`);
       }
     },
     handlePageChange(page) {
@@ -91,6 +91,12 @@ export default {
       let { pageindex, pagesize, total, list } = result;
       this.tableMetas.pageInfo = { total, pageindex, pagesize };
       this.tableMetas.tableData = list;
+      list.forEach(item => {
+        let replyList = item.list;
+        let replyCon = replyList[replyList.length - 1];
+        item.reply_name = replyCon ? replyCon.user_name : null;
+        item.reply_date = replyCon ? replyCon.inquiry_resp_date : null;
+      })
 
       this.loading = false;
     }

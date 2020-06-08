@@ -3,7 +3,7 @@ import { ajax } from './basic'
 export async function getUserList (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/orders'
+    url: '/v1/api/orders'
   }, extra))
   return result
 }
@@ -11,7 +11,7 @@ export async function getUserList (extra) {
 export async function setUserExpired (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
-    url: '/api/orders/auth/extend'
+    url: '/v1/api/orders/auth/extend'
   }, extra))
   return result
 }
@@ -19,7 +19,7 @@ export async function setUserExpired (extra) {
 export async function getCSList (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/orders_ex'
+    url: '/v1/api/orders_ex'
   }, extra))
   return result
 }

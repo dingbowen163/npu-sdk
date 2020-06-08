@@ -3,7 +3,7 @@ import { ajax } from './basic'
 export async function getVerifyCode (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/verify-img'
+    url: '/v1/api/verify-img'
   }, extra))
   return result
 }
@@ -11,7 +11,7 @@ export async function getVerifyCode (extra) {
 export async function checkemail (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/user/login/checkemail'
+    url: '/v1/api/user/login/checkemail'
   }, extra))
   return result
 }
@@ -19,7 +19,7 @@ export async function checkemail (extra) {
 export async function checkid (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/user/login/checkid'
+    url: '/v1/api/user/login/checkid'
   }, extra))
   return result
 }
@@ -27,7 +27,7 @@ export async function checkid (extra) {
 export async function checkCode (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
-    url: '/api/check-img'
+    url: '/v1/api/check-img'
   }, extra))
   return result
 }
@@ -35,7 +35,7 @@ export async function checkCode (extra) {
 export async function register (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
-    url: '/api/user/register'
+    url: '/v1/api/user/register'
   }, extra))
   return result
 }
@@ -43,7 +43,7 @@ export async function register (extra) {
 export async function login (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
-    url: '/api/user/login'
+    url: '/v1/api/user/login'
   }, extra, {withMsg: true}))
   return result
 }
@@ -51,7 +51,7 @@ export async function login (extra) {
 export async function getSelfInfo (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/user/info'
+    url: '/v1/api/user/info'
   }, extra))
   return result
 }
@@ -59,7 +59,7 @@ export async function getSelfInfo (extra) {
 export async function logout (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/user/logout'
+    url: '/v1/api/user/logout'
   }, extra))
   return result
 }
@@ -67,7 +67,7 @@ export async function logout (extra) {
 export async function editPersionalInfo (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
-    url: '/api/user/edit'
+    url: '/v1/api/user/edit'
   }, extra, {withMsg: true}))
   return result
 }
@@ -75,7 +75,7 @@ export async function editPersionalInfo (extra) {
 export async function editPwd (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'post',
-    url: '/api/user/password'
+    url: '/v1/api/user/password'
   }, extra, {withMsg: true}))
   return result
 }
@@ -83,7 +83,7 @@ export async function editPwd (extra) {
 export async function sendemail (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/reset/sendemail'
+    url: '/v1/api/reset/sendemail'
   }, extra))
   return result
 }
@@ -91,7 +91,7 @@ export async function sendemail (extra) {
 export async function resetpassword (extra) {
   const result = await ajax(Object.assign({}, {
     method: 'get',
-    url: '/api/reset/resetpassword'
+    url: '/v1/api/reset/resetpassword'
   }, extra))
   return result
 }

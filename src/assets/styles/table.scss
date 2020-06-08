@@ -84,6 +84,32 @@
     background: #35bd94;
   }
 }
+
+/deep/ .statusTag {
+  line-height: 23px;
+  height: 25px;
+  padding: 0 8px;
+  border-radius: 3px;
+  border: 1px solid #e8eaec;
+  display: inline-block;
+
+  &.status2 {
+    background: #fff1f0;
+    border-color: #ffa39e;
+    color: #fa6e6e!important;
+  }
+  &.status1 {
+    background: #f0f5ff;
+    border-color: #adc6ff;
+    color: #7383eb!important;
+  }
+  &.status0 {
+    background: #f6ffed;
+    border-color: #b7eb8f;
+    color: #52c41a!important;
+  }
+}
+
 /deep/ .data-con {
   width: 100px;
   display: inline-block;
@@ -101,8 +127,8 @@
     color: #66b1ff;
   }
 }
-.sdk-table-cell{
-  .el-link{
+.sdk-table-cell {
+  .el-link {
     margin-right: 5px;
   }
 }

@@ -7,7 +7,7 @@
           <h3 class="form-title">注册</h3>
           <el-form class="form" ref="form" :model="form" :rules="formRules">
             <el-form-item prop="user_id">
-              <el-input placeholder="登录名" maxlength="40" v-model="form.user_id"></el-input>
+              <el-input placeholder="登录名" maxlength="20" v-model="form.user_id"></el-input>
             </el-form-item>
             <el-form-item prop="name">
               <el-input placeholder="姓名" maxlength="40" v-model="form.name"></el-input>
@@ -70,6 +70,8 @@ export default {
     const validId = async (rule, value, callback) => {
       if (!value) {
         return callback(new Error("请填写登录名"));
+      } else if (value.length < 6) {
+        return callback(new Error("登录名不小于6位"));
       } else {
         let params = { userid: value };
         let result = await checkid({ params });

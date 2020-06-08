@@ -85,9 +85,9 @@ export default {
 
 <style lang="scss" scoped>
 .home {
+  min-width: 900px;
   height: 100%;
   position: relative;
-  overflow: hidden;
 }
 .el-menu--horizontal {
   width: 100%;
@@ -96,17 +96,15 @@ export default {
   top: 0;
   left: 0;
   z-index: 99;
+  & > .el-menu-item.fr {
+    float: right;
+  }
 }
 .logo {
   width: 132px;
   height: 30px;
 }
-.fr {
-  float: right;
-}
-.fl {
-  float: left;
-}
+
 .main-view {
   height: 100%;
   padding-top: 61px;
@@ -118,6 +116,7 @@ export default {
 }
 
 .logout {
+  float: right;
   .el-dropdown-link {
     height: 35px;
     display: inline-block;

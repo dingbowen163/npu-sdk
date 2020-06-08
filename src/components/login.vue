@@ -10,7 +10,7 @@
           </h3>
           <el-form class="form" ref="form" :model="form" :rules="formRules">
             <el-form-item prop="user_id">
-              <el-input prefix-icon="el-icon-user" placeholder="登录名" v-model="form.user_id"></el-input>
+              <el-input prefix-icon="el-icon-user" maxlength="20" placeholder="登录名" v-model="form.user_id"></el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input

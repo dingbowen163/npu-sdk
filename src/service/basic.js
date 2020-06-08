@@ -23,7 +23,7 @@ class Http {
   constructor(opts = {}) {
     const {
       timeout = 30000,
-      baseUrl = "/api",
+      baseUrl = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : '',
       contentType = "application/json",
       withCredentials = true,
       cancelToken = undefined,
@@ -49,7 +49,8 @@ class Http {
   async ajax(method, url, params, opts = {}) {
     const ajaxRequest = axios({
       method,
-      url: opts.baseUrl ? opts.baseUrl + url : this.baseUrl + url,
+      url,
+      baseURL: this.baseUrl,
       headers: {
         "Content-Type": this.contentType,
         ...opts.headers
@@ -79,15 +80,14 @@ class Http {
       } else if (data.code === 401) {
         goToLogin();
       } else {
-        if(this.withMsg){
+        if (this.withMsg) {
           Message({
             message: data.msg,
             center: true,
             type: "error"
           });
           ret = data;
-        }
-        else{
+        } else {
           let errData = {
             code: 10001,
             message: data.msg,
