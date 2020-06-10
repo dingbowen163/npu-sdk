@@ -12,7 +12,7 @@
 .message-item {
   margin-bottom: 10px;
   border-bottom: 1px solid #e8e8e8;
-  &:nth-last-child(1){
+  &:nth-last-child(1) {
     // border-bottom: none;
     margin-bottom: 0;
   }
@@ -59,6 +59,11 @@
 .question-content {
   padding-left: 20px;
   line-height: 20px;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
 }
 .reply-textarea {
   height: 100px;
@@ -110,7 +115,7 @@
   border-radius: 5px;
   margin-bottom: 20px;
 }
-.card{
+.card {
   min-height: 400px;
   min-width: 550px;
 }

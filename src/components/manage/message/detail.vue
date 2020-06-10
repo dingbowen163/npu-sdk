@@ -19,14 +19,14 @@
             <div class="fr right-con">
               <div class="message-title">
                 <div class="fl username">
-                  {{user_name}}
+                  {{detailInfo.user_name}}
                   <span class="text">发表提问：</span>
                 </div>
                 <div class="fr">
-                  <span class="publish-date">{{inquiry_date}}</span>
+                  <span class="publish-date">{{detailInfo.inquiry_date}}</span>
                 </div>
               </div>
-              <pre class="question-content">{{content}}</pre>
+              <pre class="question-content">{{detailInfo.content}}</pre>
 
               <el-link
                 class="reply-btn hang-btn"
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { getMessageDetail, addReply } from "@/service/messages";
+import { getDetail, addReply } from "@/service/messages";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -96,14 +96,23 @@ export default {
       replyContent: "",
       showReply: false,
       inquiry_id: this.$route.params.inquiry_id,
-      content: decodeURIComponent(this.$route.params.content),
-      inquiry_date: this.$route.params.inquiry_date,
-      user_name: this.$route.params.user_name,
+      detailInfo: {},
       detailList: []
     };
   },
   computed: {
     ...mapState("user", ["user_id", "name"])
+  },
+  watch: {
+    user_id: {
+      handler: function(val) {
+        if (val) {
+          this.getDetail();
+        }
+      },
+      immediate: true,
+      deep: true
+    }
   },
   methods: {
     openReplyInp() {
@@ -120,21 +129,22 @@ export default {
         content: this.replyContent
       };
       let result = await addReply({ data });
-      this.$message.success('评论提交成功');
-      this.replyContent = '';
+      this.$message.success("评论提交成功");
+      this.replyContent = "";
       this.getDetail();
     },
     async getDetail() {
       let params = {
-        inquiry_id: this.inquiry_id
+        inquiry_id: this.inquiry_id,
+        userid: this.user_id
       };
-      let result = await getMessageDetail({ params });
-      this.detailList = result;
+      let result = await getDetail({ params });
+      this.detailInfo = result;
+      this.detailList = result.list;
     }
   },
   components: {},
   mounted() {
-    this.getDetail();
   }
 };
 </script>

@@ -74,7 +74,7 @@ export default {
     handleSetting(data) {
       let { command, row } = data;
       if (command === "gotoLink") {
-        this.$router.push(`/messageDetail/${row.inquiry_id}/${encodeURIComponent(row.content)}/${row.user_name}/${row.inquiry_date}`);
+        this.$router.push(`/messageDetail/${row.inquiry_id}`);
       }
     },
     handlePageChange(page) {

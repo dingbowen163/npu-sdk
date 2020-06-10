@@ -31,3 +31,11 @@ export async function addReply (extra) {
   }, extra))
   return result
 }
+
+export async function getDetail (extra) {
+  const result = await ajax(Object.assign({}, {
+    method: 'get',
+    url: '/v1/api/inquirys/info'
+  }, extra))
+  return result
+}

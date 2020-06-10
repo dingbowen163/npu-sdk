@@ -2,39 +2,11 @@ import axios from "axios";
 
 import { Message, Notification, MessageBox } from "element-ui";
 
-//跳转登录页
-function goToLogin() {
-  window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
-}
-
-const CancelToken = axios.CancelToken;
-
-/*
- * url 服务器 api地址
- * params 参数
- * opts {
- *   headers: 请求头设置
- *   success: 请求成功回调
- *   failed: 请求失败回调
- * }
- */
-
 class Http {
   constructor(opts = {}) {
-    const {
-      timeout = 30000,
-      baseUrl = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : '',
-      contentType = "application/json",
-      withCredentials = true,
-      cancelToken = undefined,
-      withMsg = false
-    } = opts;
+    const { withMsg = false } = opts;
 
-    this.timeout = timeout;
-    this.baseUrl = baseUrl;
-    this.contentType = contentType;
-    this.withCredentials = withCredentials;
-    this.cancelToken = cancelToken;
+    this.baseUrl = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : '';
     this.withMsg = withMsg;
   }
 
@@ -52,17 +24,11 @@ class Http {
       url,
       baseURL: this.baseUrl,
       headers: {
-        "Content-Type": this.contentType,
-        ...opts.headers
+        "Content-Type": "application/json"
       },
-      timeout: opts.timeout ? opts.timeout : this.timeout,
-      onUploadProgress: opts.uploading,
-      onDownloadProgress: opts.download,
-      withCredentials:
-        opts.withCredentials !== undefined
-          ? opts.withCredentials
-          : this.withCredentials,
-      cancelToken: opts.cancelToken ? opts.cancelToken : this.cancelToken,
+      timeout: 30000,
+      withCredentials: true,
+      crossDomain: true,
       ...params
     });
 
@@ -77,8 +43,6 @@ class Http {
           opts.success(data.result);
         }
         ret = this.withMsg ? data : data.data;
-      } else if (data.code === 401) {
-        goToLogin();
       } else {
         if (this.withMsg) {
           Message({
@@ -121,16 +85,7 @@ class Http {
 }
 
 export const http = new Http();
-export const mkCancel = function() {
-  let cancel;
-  const token = new CancelToken(c => {
-    cancel = c;
-  });
-  return {
-    token,
-    cancel
-  };
-};
+
 export async function ajax(config, otherOption = {}) {
   let result = null;
   try {
