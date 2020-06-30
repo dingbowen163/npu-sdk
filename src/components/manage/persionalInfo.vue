@@ -100,7 +100,7 @@ export default {
     ...mapActions("user", ["getUserData"]),
     async getSelfInfo() {
       let params = {
-        userid: localStorage.getItem("user_id")
+        userid: sessionStorage.getItem("user_id")
       };
       let result = await getSelfInfo({ params });
       this.originalData = this._.cloneDeep(result);

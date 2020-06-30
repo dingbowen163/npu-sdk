@@ -51,7 +51,8 @@ export default {
         return;
       }
       if (key === "/documents") {
-        window.open("https://seetadocs.readthedocs.io/en/latest/", "_blank");
+        window.open("http://39.104.51.85/seetadocs/index.html", "_blank");
+        // window.open("https://seetadocs.readthedocs.io/en/latest/", "_blank");
       } else {
         this.$router.push(key);
       }
@@ -67,7 +68,7 @@ export default {
       };
       let result = await logout({ params });
       this.$message.success("退出成功");
-      localStorage.clear();
+      sessionStorage.clear();
       this.$router.push("/login");
       this.getUserData();
     },
@@ -106,9 +107,17 @@ export default {
 }
 
 .main-view {
-  height: 100%;
-  padding-top: 61px;
-  overflow-y: scroll;
+  // height: 100%;
+  // min-height: 100%;
+  // padding-top: 61px;
+  // overflow-y: hidden;
+  width: 100%;
+  height: calc(100% - 61px);
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 61px;
+  bottom: 0;
 }
 /deep/ .el-menu-item .el-icon-user-solid {
   color: #fff;

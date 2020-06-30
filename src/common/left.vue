@@ -7,6 +7,13 @@
       <p class="title">欢迎使用</p>
       <p class="title">瑞芯微NPU人脸识别技术支撑网站</p>
     </div>
+    <div class="connect">
+      <img class="code" src="@/assets/img/WX.png" />
+      <div class="info">
+        <p>请扫描左侧微信二维码</p>
+        <p>商务联系：肖经理（18610212102）</p>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -30,7 +37,7 @@ export default {
   .logo-icon-1 {
     width: 60px;
     height: 60px;
-    top: 70px;
+    top: 8px;
     left: 10px;
   }
   .logo-icon-2 {
@@ -41,18 +48,37 @@ export default {
   }
   .bottom {
     position: absolute;
-    bottom: 120px;
+    bottom: 155px;
     left: 60px;
+    color: #fff;
     .ball {
       width: 96px;
     }
     .title {
       font-family: PingFangSC-Semibold;
       font-size: 28px;
-      color: #fff;
+
       letter-spacing: 0;
       line-height: 34px;
       text-shadow: 0 10px 20px rgba(0, 55, 113, 0.1);
+    }
+  }
+  .connect {
+    position: absolute;
+    bottom: 45px;
+    left: 60px;
+    overflow: hidden;
+    color: #fff;
+    .code {
+      width: 80px;
+      float: left;
+    }
+    .info {
+      padding-top: 15px;
+      margin-left: 10px;
+      float: left;
+      font-size: 12px;
+      line-height: 24px;
     }
   }
 }

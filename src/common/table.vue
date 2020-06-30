@@ -34,15 +34,15 @@
           <div v-else-if="item.type === 'menu'">
             <span v-for="(btn, i) in scope.row.menu" :key="i">
               <el-popover
+                :ref="`popover-${scope.$index}`"
                 placement="bottom"
                 @show="showPopover"
                 trigger="click"
-                v-model="btn.visible"
-                v-show="btn.type === 'changeDate'"
+                v-if="btn.type === 'changeDate'"
               >
                 <el-date-picker v-model="date" :placeholder="btn.placeholder" value-format="yyyy-MM-dd"></el-date-picker>
                 <div class="popoverBtns">
-                  <el-button type="text" @click="btn.visible = false">取消</el-button>
+                  <el-button type="text" @click="scope._self.$refs[`popover-${scope.$index}`][0].doClose()">取消</el-button>
                   <el-button
                     type="primary"
                     @click="handleClick({command: btn.command, row: scope.row, date, btn})"
@@ -54,11 +54,16 @@
               <el-link
                 :type="btn.buttonType"
                 @click="handleClick({command: btn.command, row: scope.row})"
-                v-show="btn.type !== 'changeDate'"
+                v-if="btn.type !== 'changeDate'"
               >{{btn.title}}</el-link>
             </span>
             <span v-if="!scope.row.menu.length">—</span>
           </div>
+           <span
+            v-else-if="item.type === 'clickable'"
+            class="link-cell"
+            @click="handleClick({command: item.command, row: scope.row})"
+          >{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
           <span v-else>{{ scope.row[item.value] !== null ? scope.row[item.value] : '—' }}</span>
         </template>
       </el-table-column>
@@ -91,9 +96,7 @@ export default {
       tableData: this.metas.tableData,
       headerData: this.metas.headerData,
       pageInfo: this.metas.pageInfo,
-      date: "",
-
-      visible: false
+      date: ""
     };
   },
   methods: {
@@ -105,10 +108,6 @@ export default {
     },
     currentPageChange(page) {
       this.$emit("currentChange", page);
-    },
-    linkClick(btn) {
-      btn.visible = true;
-      this.$set(btn, "visible", true);
     }
   },
   components: {},

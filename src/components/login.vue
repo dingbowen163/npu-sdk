@@ -41,6 +41,7 @@
         </el-card>
       </div>
     </div>
+    <Bottom></Bottom>
   </div>
 </template>
 
@@ -50,6 +51,7 @@ import verifyCodeMixin from "@/assets/js/verifyCodeMixin";
 import enterMixin from "@/assets/js/enterMixin";
 import { mapActions, mapState } from "vuex";
 import Left from "@/common/left";
+import Bottom from "@/common/bottom";
 export default {
   mixins: [verifyCodeMixin, enterMixin],
   data() {
@@ -77,7 +79,7 @@ export default {
           data.check_id = this.codeInfo.check_id;
           let result = await login({ data });
           if (result.msg === "ok") {
-            localStorage.setItem("user_id", result.data.user_id);
+            sessionStorage.setItem("user_id", result.data.user_id);
             this.$message.success("登录成功");
             this.$router.push("/index");
             this.getUserData();
@@ -91,7 +93,7 @@ export default {
       this.$router.push("/sendEmail");
     }
   },
-  components: { Left },
+  components: { Left, Bottom },
   mounted() {}
 };
 </script>

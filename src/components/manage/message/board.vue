@@ -86,8 +86,9 @@
             <ul class="reply-list" v-if="item.list.length">
               <li class="reply-con" v-for="(reply, i) in item.list" :key="i">
                 <div class="message-title">
-                  <div class="fl username">
-                    {{reply.user_name}}
+                  <div class="fl username" :class="{'kefu': reply.user_role === 1}">
+                    <span>{{reply.user_name}}</span>
+                    <i class="el-icon-service" v-if="reply.user_role === 1"></i>
                     <span class="text">回复：</span>
                   </div>
                   <div class="fr">

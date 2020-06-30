@@ -44,6 +44,14 @@
   .username {
     font-weight: bold;
     font-size: 16px;
+    &.kefu {
+      color: #409eff;
+    }
+    .el-icon-service {
+      color: #409eff;
+      font-weight: 600;
+      font-size: 18px;
+    }
     .text {
       font-weight: normal;
       margin-left: 5px;

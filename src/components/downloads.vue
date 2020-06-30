@@ -1,17 +1,18 @@
 <template>
   <div class="view downloads">
-    <el-card class="box-card" v-for="(item,index) in list" :key="index">
-      <div slot="header" class="clearfix">
-        <h3 class="header-title">{{item.name}}</h3>
-        <ul class="header-info">
-          <li class="info-item">版本号：v{{item.ver}}</li>
-          <li class="info-item">发布日期：{{item.release_date}}</li>
-        </ul>
-      </div>
-      <div class="info-body">
-        <div class="describe" v-html="item.Description"></div>
-
-        <!-- <ul class="info">
+    <div class="container">
+      <el-card class="box-card" v-for="(item,index) in list" :key="index">
+        <div slot="header" class="clearfix">
+          <h3 class="header-title">{{item.name}}</h3>
+          <ul class="header-info">
+            <li class="info-item">版本号：v{{item.ver}}</li>
+            <li class="info-item">发布日期：{{item.release_date}}</li>
+          </ul>
+        </div>
+        <div class="info-body">
+          <div class="describe" v-html="item.Description"></div>
+          <!-- 此样式作为下载页表格样式 -->
+          <!-- <ul class="info">
           <li class="info-item">
             <span class="title">网络结构</span>
             <span class="text">ResNet-50</span>
@@ -34,17 +35,18 @@
             <span class="title">特征长度</span>
             <span class="text">1024</span>
           </li>
-        </ul>-->
-      </div>
-      <div class="bottom clearfix">
-        <el-button
-          class="download-btn"
-          type="primary"
-          icon="el-icon-download"
-          @click="download(item.url_download)"
-        >下 载</el-button>
-      </div>
-    </el-card>
+          </ul>-->
+        </div>
+        <div class="bottom clearfix">
+          <el-button
+            class="download-btn"
+            type="primary"
+            icon="el-icon-download"
+            @click="download(item.url_download)"
+          >下 载</el-button>
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -80,6 +82,12 @@ export default {
 
 <style lang="scss" scoped>
 .downloads {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.container {
   font-family: PingFangSC-Regular;
   padding: 40px;
   display: grid;

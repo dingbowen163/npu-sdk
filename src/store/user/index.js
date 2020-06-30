@@ -22,7 +22,7 @@ export default {
     async getUserData({ commit }) {
       try {
         let params = {
-          userid: localStorage.getItem("user_id")
+          userid: sessionStorage.getItem("user_id")
         };
         if (params.userid) {
           const [userInfo] = await Promise.all([getSelfInfo({ params })]);

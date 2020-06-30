@@ -69,8 +69,9 @@
             <ul class="reply-list">
               <li class="reply-con" v-for="(item,index) in detailList" :key="index">
                 <div class="message-title">
-                  <div class="fl username">
-                    {{item.user_name}}
+                  <div class="fl username" :class="{'kefu': item.user_role === 1}">
+                    <span>{{item.user_name}}</span>
+                    <i class="el-icon-service" v-if="item.user_role === 1"></i>
                     <span class="text">回复：</span>
                   </div>
                   <div class="fr">
@@ -144,8 +145,7 @@ export default {
     }
   },
   components: {},
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 
